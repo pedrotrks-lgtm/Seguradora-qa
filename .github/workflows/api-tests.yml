@@ -34,6 +34,12 @@ jobs:
         working-directory: backend
         run: npm install
 
+      - name: Criar .env backend
+        working-directory: backend
+        run: |
+          echo "PORT=3000" > .env
+          echo "MONGO_URI=mongodb://localhost:27017/seguradora-b3" >> .env
+
       - name: Subir backend
         working-directory: backend
         env:
