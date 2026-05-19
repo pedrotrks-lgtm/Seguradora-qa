@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+		<Metadata>
+			<Identity Language="en-US" Id="robotcode" Version="2.5.1" Publisher="d-biehl" />
+			<DisplayName>RobotCode - Robot Framework Support</DisplayName>
+			<Description xml:space="preserve">Robot Framework IntelliSense, linting, test execution and debugging, code formatting, refactoring, and many more</Description>
+			<Tags>Test,Testing,RobotFramework,Robot Framework,Robot,Keyword Driven,Data Driven,Acceptance Testing,Acceptance Test Driven Development,Test Driven,Behavior Driven Development,BDD,Behavior Driven Testing,BDT,Robotic Process Automation,RPA,notebookKernelRobotframeworkRepl,keybindings,debuggers,tools,language-model-tools,robotframework,__ext_robot,__ext_resource,robotframework-repl,RobotFrameworkREPL,robotframeworkrepl,__ext_robotrepl,__ext_robotscript,robotframework-injection,robotframework-notebook,RobotFrameworkNotebook,__ext_robotbook,linters,__sponsor_extension</Tags>
+			<Categories>Programming Languages,Testing,Debuggers,Formatters,Linters</Categories>
+			<GalleryFlags>Public</GalleryFlags>
+			
+			<Properties>
+				<Property Id="Microsoft.VisualStudio.Code.Engine" Value="^1.108.0" />
+				<Property Id="Microsoft.VisualStudio.Code.ExtensionDependencies" Value="ms-python.python,ms-python.debugpy" />
+				<Property Id="Microsoft.VisualStudio.Code.ExtensionPack" Value="" />
+				<Property Id="Microsoft.VisualStudio.Code.ExtensionKind" Value="workspace" />
+				<Property Id="Microsoft.VisualStudio.Code.LocalizedLanguages" Value="" />
+				<Property Id="Microsoft.VisualStudio.Code.EnabledApiProposals" Value="" />
+				
+				<Property Id="Microsoft.VisualStudio.Code.ExecutesCode" Value="true" />
+				<Property Id="Microsoft.VisualStudio.Code.SponsorLink" Value="https://opencollective.com/robotcode" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Source" Value="https://github.com/robotcodedev/robotcode.git" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Getstarted" Value="https://github.com/robotcodedev/robotcode.git" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.GitHub" Value="https://github.com/robotcodedev/robotcode.git" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/robotcodedev/robotcode/issues" />
+				<Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://robotcode.io" />
+				<Property Id="Microsoft.VisualStudio.Services.Branding.Color" Value="#111111" />
+				<Property Id="Microsoft.VisualStudio.Services.Branding.Theme" Value="dark" />
+				<Property Id="Microsoft.VisualStudio.Services.GitHubFlavoredMarkdown" Value="true" />
+				<Property Id="Microsoft.VisualStudio.Services.Content.Pricing" Value="Free"/>
+
+				
+				<Property Id="Microsoft.VisualStudio.Services.CustomerQnALink" Value="https://github.com/robotcodedev/robotcode/discussions/categories/q-a" />
+			</Properties>
+			<License>extension/LICENSE.txt</License>
+			<Icon>extension/images/icon.png</Icon>
+		</Metadata>
+		<Installation>
+			<InstallationTarget Id="Microsoft.VisualStudio.Code"/>
+		</Installation>
+		<Dependencies/>
+		<Assets>
+			<Asset Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true" />
+			<Asset Type="Microsoft.VisualStudio.Services.Content.Details" Path="extension/readme.md" Addressable="true" />
+<Asset Type="Microsoft.VisualStudio.Services.Content.Changelog" Path="extension/changelog.md" Addressable="true" />
+<Asset Type="Microsoft.VisualStudio.Services.Content.License" Path="extension/LICENSE.txt" Addressable="true" />
+<Asset Type="Microsoft.VisualStudio.Services.Icons.Default" Path="extension/images/icon.png" Addressable="true" />
+		</Assets>
+	</PackageManifest>

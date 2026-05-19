@@ -1,0 +1,1 @@
+"use strict";exports.id=199,exports.ids=[199],exports.modules={81199:(t,a,e)=>{e.d(a,{ENV_CMDS_FULL_URI:()=>s.RA,ENV_CMDS_RELATIVE_URI:()=>s.kx,fromContainerMetadata:()=>s.Hb,fromInstanceMetadata:()=>d.D,getInstanceMetadataEndpoint:()=>o.c,httpRequest:()=>n.a});var s=e(98329),d=e(78994),n=e(78026),o=e(19751)}};

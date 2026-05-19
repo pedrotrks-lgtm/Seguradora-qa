@@ -1,0 +1,11 @@
+{
+  "admin": {
+    "email": "qa@b3.com",
+    "password": "123456"
+  },
+
+  "invalid": {
+    "email": "qa@b3.com",
+    "password": "999999"
+  }
+}
