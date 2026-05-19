@@ -57,6 +57,7 @@ jobs:
           pip install robotframework-faker
           pip install robotframework-seleniumlibrary
           pip install pymongo
+          pip install python-dotenv
 
       - name: Rodar testes de API
         working-directory: insurance-b3
