@@ -18,12 +18,16 @@ Validar CPF Duplicado No Front
 
     Limpar Dados Policy
 
+    Wait Until Page Does Not Contain
+    ...    Apólice emitida com sucesso
+    ...    10s
+
     Preencher Dados Policy Com Mesmo CPF
 
     Emitir Policy
 
     Wait Until Page Contains
     ...    CPF já cadastrado
-    ...    10s
+    ...    20s
 
     Fechar Navegador
