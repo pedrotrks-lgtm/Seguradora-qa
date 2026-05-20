@@ -2,6 +2,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from pymongo import MongoClient
 import os
+import time
 
 
 class MongoDBLibrary:
@@ -21,16 +22,36 @@ class MongoDBLibrary:
         self.db = self.client["seguradora_b3"]
 
     def usuario_deve_existir_no_mongo(self, email):
-        user = self.db["users"].find_one({"email": email})
 
-        if not user:
-            raise AssertionError(f"Usuário {email} não encontrado no MongoDB")
+        for _ in range(5):
+
+            user = self.db["users"].find_one({
+                "email": email
+            })
+
+            if user:
+                return True
+
+            time.sleep(1)
+
+        raise AssertionError(
+            f"Usuário {email} não encontrado no MongoDB"
+        )
 
     def policy_deve_existir_no_mongo(self, cpf, status):
-        policy = self.db["policies"].find_one({
-            "cpf": cpf,
-            "status": status
-        })
 
-        if not policy:
-            raise AssertionError(f"Policy com CPF {cpf} e status {status} não encontrada no MongoDB")
+        for _ in range(5):
+
+            policy = self.db["policies"].find_one({
+                "cpf": str(cpf),
+                "status": status
+            })
+
+            if policy:
+                return True
+
+            time.sleep(1)
+
+        raise AssertionError(
+            f"Policy com CPF {cpf} e status {status} não encontrada no MongoDB"
+        )
