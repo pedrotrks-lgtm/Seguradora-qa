@@ -24,6 +24,8 @@ Abrir Navegador
     Call Method    ${options}    add_argument    --disable-notifications
     Call Method    ${options}    add_argument    --disable-infobars
     Call Method    ${options}    add_argument    --guest
+    Call Method    ${options}    add_argument    --headless=new
+    Call Method    ${options}    add_argument
 
     Open Browser
     ...    http://localhost:5173
