@@ -19,7 +19,7 @@ class MongoDBLibrary:
             raise Exception("MONGO_URI não encontrada no backend/.env")
 
         self.client = MongoClient(mongo_uri)
-        self.db = self.client["seguradora_b3"]
+        self.db = self.client.get_database()
 
     def usuario_deve_existir_no_mongo(self, email):
 
