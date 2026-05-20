@@ -25,7 +25,9 @@ Abrir Navegador
     Call Method    ${options}    add_argument    --disable-infobars
     Call Method    ${options}    add_argument    --guest
     Call Method    ${options}    add_argument    --headless=new
-    Call Method    ${options}    add_argument
+    Call Method    ${options}    add_argument    --no-sandbox
+    Call Method    ${options}    add_argument    --disable-dev-shm-usage
+    Call Method    ${options}    add_argument    --window-size=1920,1080
 
     Open Browser
     ...    http://localhost:5173
