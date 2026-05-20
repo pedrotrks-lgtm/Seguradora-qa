@@ -34,6 +34,27 @@ jobs:
         working-directory: backend
         run: npm install
 
+      
+      - name: Popular Mongo com usuario QA
+        working-directory: backend
+        env:
+          MONGO_URI: mongodb://localhost:27017/seguradora-b3
+        run: |
+          node -e "
+          const mongoose = require('mongoose');
+          const User = require('./models/User');
+
+          mongoose.connect(process.env.MONGO_URI).then(async () => {
+            await User.deleteMany({});
+            await User.create({
+              email: 'qa@b3.com',
+              password: '123456'
+            });
+            console.log('Usuário QA criado no Mongo');
+            await mongoose.disconnect();
+          });
+          "
+
       - name: Criar .env backend
         working-directory: backend
         run: |
