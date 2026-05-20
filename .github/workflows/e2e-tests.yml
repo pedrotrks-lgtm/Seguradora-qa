@@ -1,0 +1,77 @@
+name: E2E Tests
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências backend
+        working-directory: backend
+        run: npm install
+
+      - name: Criar .env backend
+        working-directory: backend
+        run: |
+          echo "PORT=3000" > .env
+          echo "MONGO_URI=mongodb://localhost:27017/seguradora-b3" >> .env
+
+      - name: Subir backend
+        working-directory: backend
+        run: |
+          node server.js &
+          sleep 5
+
+      - name: Instalar dependências frontend
+        working-directory: insurance-b3
+        run: npm install
+
+      - name: Subir frontend
+        working-directory: insurance-b3
+        run: |
+          npm run dev -- --host 0.0.0.0 &
+          sleep 8
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências Robot E2E
+        working-directory: insurance-b3
+        run: |
+          pip install robotframework
+          pip install robotframework-seleniumlibrary
+          pip install robotframework-jsonlibrary
+          pip install robotframework-requests
+          pip install robotframework-faker
+          pip install pymongo
+          pip install python-dotenv
+
+      - name: Rodar testes E2E
+        working-directory: insurance-b3
+        run: robot qa/tests/e2e
