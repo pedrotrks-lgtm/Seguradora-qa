@@ -13,9 +13,13 @@ Criar Sessao Policy API
 
 Emitir Policy Com Sucesso
 
+    ${cpf}=    Evaluate
+    ...    str(random.randint(10000000000, 99999999999))
+    ...    random
+
     ${body}=    Create Dictionary
     ...    name=Pedro QA
-    ...    cpf=12345678900
+    ...    cpf=${cpf}
 
     ${response}=    POST On Session
     ...    backend
@@ -40,7 +44,7 @@ Emitir Policy Com Sucesso
     ...    ${json}[policyId]
 
     Policy Deve Existir No Mongo
-    ...    12345678900
+    ...    ${cpf}
     ...    CREATED
 
     RETURN    ${response}

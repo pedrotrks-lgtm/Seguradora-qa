@@ -129,8 +129,12 @@ Acessar Tela Policy
 
 Preencher Dados Policy
 
+    ${cpf}=    Evaluate
+    ...    str(random.randint(10000000000, 99999999999))
+    ...    random
+
     Input Text    ${INPUT_CLIENTE}    Pedro QA
-    Input Text    ${INPUT_CPF}        12345678900
+    Input Text    ${INPUT_CPF}        ${cpf}
 
 Emitir Policy
 
@@ -164,3 +168,19 @@ Validar Redirecionamento Login
 Clicar Emitir Duas Vezes
 
     Double Click Element    ${BTN_EMITIR}
+
+Preencher Dados Policy Com CPF Unico
+
+    ${cpf}=    Evaluate
+    ...    str(random.randint(10000000000, 99999999999))
+    ...    random
+
+    Set Test Variable    ${CPF_POLICY_DUPLICADO}    ${cpf}
+
+    Input Text    ${INPUT_CLIENTE}    Pedro QA
+    Input Text    ${INPUT_CPF}        ${cpf}
+
+Preencher Dados Policy Com Mesmo CPF
+
+    Input Text    ${INPUT_CLIENTE}    Pedro QA
+    Input Text    ${INPUT_CPF}        ${CPF_POLICY_DUPLICADO}
