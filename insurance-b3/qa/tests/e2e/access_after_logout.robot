@@ -12,4 +12,4 @@ Bloquear Acesso Apos Logout
     Realizar Logout
     Go To    http://localhost:5173/dashboard
     Validar Retorno Login
-    Fechar Navegador
+    Fechar Navegad
