@@ -16,6 +16,8 @@ Validar CPF Duplicado No Front
 
     Validar Policy Emitida
 
+    Limpar Dados Policy
+
     Preencher Dados Policy Com Mesmo CPF
 
     Emitir Policy

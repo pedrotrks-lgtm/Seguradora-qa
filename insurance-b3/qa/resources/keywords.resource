@@ -44,11 +44,13 @@ Abrir Navegador
 
 Abrir Policy Diretamente
 
-    Open Browser    http://localhost:5173/policy    chrome
+    Abrir Navegador
+    Go To    http://localhost:5173/policy
 
 Abrir Dashboard Diretamente
 
-    Open Browser    http://localhost:5173/dashboard    chrome
+    Abrir Navegador
+    Go To    http://localhost:5173/dashboard
 
 Criar Sessao API
 
@@ -194,3 +196,8 @@ Preencher Dados Policy Com Mesmo CPF
 
     Input Text    ${INPUT_CLIENTE}    Pedro QA
     Input Text    ${INPUT_CPF}        ${CPF_POLICY_DUPLICADO}
+
+Limpar Dados Policy
+
+    Clear Element Text    ${INPUT_CLIENTE}
+    Clear Element Text    ${INPUT_CPF}
