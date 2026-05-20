@@ -201,3 +201,29 @@ Limpar Dados Policy
 
     Clear Element Text    ${INPUT_CLIENTE}
     Clear Element Text    ${INPUT_CPF}
+
+Preencher Dados Policy Com CPF Informado
+    [Arguments]    ${cpf}
+
+    Clear Element Text    ${INPUT_CLIENTE}
+    Clear Element Text    ${INPUT_CPF}
+
+    Input Text    ${INPUT_CLIENTE}    Pedro QA
+    Input Text    ${INPUT_CPF}        ${cpf}
+
+Criar Policy Pela API
+    [Arguments]    ${cpf}
+
+    Create Session    backend    http://localhost:3000
+
+    ${body}=    Create Dictionary
+    ...    name=Pedro QA
+    ...    cpf=${cpf}
+
+    ${response}=    POST On Session
+    ...    backend
+    ...    /policy
+    ...    json=${body}
+    ...    expected_status=201
+
+    RETURN    ${response}

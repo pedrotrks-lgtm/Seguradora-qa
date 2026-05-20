@@ -4,25 +4,19 @@ Resource    ../../resources/keywords.resource
 *** Test Cases ***
 Validar CPF Duplicado No Front
 
+    ${cpf}=    Evaluate
+    ...    str(random.randint(10000000000, 99999999999))
+    ...    random
+
+    Criar Policy Pela API    ${cpf}
+
     Abrir Navegador
 
     Realizar Login Frontend
 
     Acessar Tela Policy
 
-    Preencher Dados Policy Com CPF Unico
-
-    Emitir Policy
-
-    Validar Policy Emitida
-
-    Limpar Dados Policy
-
-    Wait Until Page Does Not Contain
-    ...    Apólice emitida com sucesso
-    ...    10s
-
-    Preencher Dados Policy Com Mesmo CPF
+    Preencher Dados Policy Com CPF Informado    ${cpf}
 
     Emitir Policy
 
