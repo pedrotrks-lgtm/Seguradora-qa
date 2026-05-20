@@ -24,10 +24,16 @@ Abrir Navegador
     Call Method    ${options}    add_argument    --disable-notifications
     Call Method    ${options}    add_argument    --disable-infobars
     Call Method    ${options}    add_argument    --guest
-    Call Method    ${options}    add_argument    --headless=new
-    Call Method    ${options}    add_argument    --no-sandbox
-    Call Method    ${options}    add_argument    --disable-dev-shm-usage
-    Call Method    ${options}    add_argument    --window-size=1920,1080
+
+    ${HEADLESS}=    Set Variable    --headless=new
+    ${NO_SANDBOX}=    Set Variable    --no-sandbox
+    ${DEV_SHM}=    Set Variable    --disable-dev-shm-usage
+    ${WINDOW_SIZE}=    Set Variable    --window-size=1920,1080
+
+    Call Method    ${options}    add_argument    ${HEADLESS}
+    Call Method    ${options}    add_argument    ${NO_SANDBOX}
+    Call Method    ${options}    add_argument    ${DEV_SHM}
+    Call Method    ${options}    add_argument    ${WINDOW_SIZE}
 
     Open Browser
     ...    http://localhost:5173
