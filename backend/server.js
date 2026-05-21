@@ -77,6 +77,17 @@ app.post('/policy', async (req, res) => {
     })
   }
 
+const existingPolicy = await Policy.findOne({
+  cpf: cleanCpf
+})
+
+if (existingPolicy) {
+  return res.status(409).json({
+    error: 'DUPLICATED_CPF',
+    message: 'CPF já cadastrado'
+  })
+}
+
   const policy = await Policy.create({
     name,
     cpf: cleanCpf,

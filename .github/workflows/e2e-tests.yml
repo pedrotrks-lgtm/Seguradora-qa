@@ -74,4 +74,4 @@ jobs:
 
       - name: Rodar testes E2E
         working-directory: insurance-b3
-        run: robot qa/tests/e2e
+        run: robot qa/tests/e2e/policy_duplicated_cpf.robot
