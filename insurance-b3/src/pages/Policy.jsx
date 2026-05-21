@@ -5,16 +5,17 @@ function Policy() {
   const [name, setName] = useState('')
   const [cpf, setCpf] = useState('')
 
-  const [success, setSuccess] = useState(false)
+  const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e) {
+
     e.preventDefault()
 
     if (loading) return
 
-    setSuccess(false)
+    setSuccess('')
     setError('')
 
     if (!name || !cpf) {
@@ -25,34 +26,47 @@ function Policy() {
     setLoading(true)
 
     try {
+
       const response = await fetch('http://localhost:3000/policy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name, cpf })
+        body: JSON.stringify({
+          name,
+          cpf
+        })
       })
 
       const data = await response.json()
 
       if (!response.ok) {
-        setSuccess(false)
+
+        setSuccess('')
         setError(data.message || 'Erro ao emitir apólice')
+
         return
       }
 
-      setSuccess(true)
       setError('')
+      setSuccess(data.message)
+
+      setName('')
+      setCpf('')
 
     } catch (err) {
-      setSuccess(false)
+
+      setSuccess('')
       setError('Erro ao emitir apólice')
+
     } finally {
+
       setLoading(false)
     }
   }
 
   return (
+
     <div className="min-h-screen bg-slate-900 text-white p-10">
 
       <h1 className="text-3xl font-bold mb-8">
@@ -114,7 +128,7 @@ function Policy() {
         {
           success && (
             <p className="text-green-400 mt-4">
-              Apólice emitida com sucesso!
+              {success}
             </p>
           )
         }
