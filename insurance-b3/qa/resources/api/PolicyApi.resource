@@ -98,3 +98,28 @@ Emitir Policy Sem Campos
     Should Be Equal
     ...    ${json}[message]
     ...    Preencha os campos obrigatórios
+
+Validar Contrato Policy Response
+    [Arguments]    ${response}
+
+    ${json}=    Set Variable    ${response.json()}
+
+    Dictionary Should Contain Key
+    ...    ${json}
+    ...    policyId
+
+    Dictionary Should Contain Key
+    ...    ${json}
+    ...    status
+
+    Dictionary Should Contain Key
+    ...    ${json}
+    ...    message
+
+    Should Be Equal
+    ...    ${json}[status]
+    ...    APOLICE_CRIADA
+
+    Should Be Equal
+    ...    ${json}[message]
+    ...    Apólice emitida com sucesso
