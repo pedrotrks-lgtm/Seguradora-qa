@@ -35,14 +35,17 @@ function Policy() {
 
       const data = await response.json()
 
-      if (response.status !== 201) {
-        setError(data.message)
+      if (!response.ok) {
+        setSuccess(false)
+        setError(data.message || 'Erro ao emitir apólice')
         return
       }
 
       setSuccess(true)
+      setError('')
 
     } catch (err) {
+      setSuccess(false)
       setError('Erro ao emitir apólice')
     } finally {
       setLoading(false)
