@@ -8,6 +8,8 @@ Validar CPF Duplicado No Front
     ...    str(random.randint(10000000000, 99999999999))
     ...    random
 
+    Log To Console    CPF GERADO: ${cpf}
+
     Criar Policy Pela API    ${cpf}
 
     Abrir Navegador
@@ -15,6 +17,8 @@ Validar CPF Duplicado No Front
     Realizar Login Frontend
 
     Acessar Tela Policy
+
+    Log To Console    CPF USADO NO FRONT: ${cpf}
 
     Preencher Dados Policy Com CPF Informado    ${cpf}
 
