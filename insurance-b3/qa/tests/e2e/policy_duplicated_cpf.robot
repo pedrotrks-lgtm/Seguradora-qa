@@ -18,8 +18,6 @@ Validar CPF Duplicado No Front
 
     Acessar Tela Policy
 
-    Log To Console    CPF USADO NO FRONT: ${cpf}
-
     Preencher Dados Policy Com CPF Informado    ${cpf}
 
     Emitir Policy

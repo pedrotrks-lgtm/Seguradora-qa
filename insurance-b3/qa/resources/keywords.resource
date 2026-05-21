@@ -214,7 +214,24 @@ Preencher Dados Policy Com CPF Informado
 Criar Policy Pela API
     [Arguments]    ${cpf}
 
-    Create Session    backend    http://localhost:3000
+    Log To Console    Criando policy pela API com CPF: ${cpf}
+
+    Create Session    backend_duplicated    http://localhost:3000
+
+    ${body}=    Create Dictionary
+    ...    name=Pedro QA
+    ...    cpf=${cpf}
+
+    ${response}=    POST On Session
+    ...    backend_duplicated
+    ...    /policy
+    ...    json=${body}
+    ...    expected_status=201
+
+    RETURN    ${response}
+
+Validar Policy Duplicada Pela API
+    [Arguments]    ${cpf}
 
     ${body}=    Create Dictionary
     ...    name=Pedro QA
@@ -224,6 +241,12 @@ Criar Policy Pela API
     ...    backend
     ...    /policy
     ...    json=${body}
-    ...    expected_status=201
+    ...    expected_status=409
 
-    RETURN    ${response}
+    Should Be Equal
+    ...    ${response.json()["error"]}
+    ...    DUPLICATED_CPF
+
+    Should Be Equal
+    ...    ${response.json()["message"]}
+    ...    CPF já cadastrado
