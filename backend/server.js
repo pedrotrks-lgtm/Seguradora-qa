@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
+const swaggerUi = require('swagger-ui-express')
+const swaggerSpec = require('./swagger/swagger')
 
 dotenv.config()
 
@@ -15,6 +17,7 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 // LOGIN
 app.post('/login', async (req, res) => {
@@ -56,6 +59,38 @@ app.post('/login', async (req, res) => {
     }
   })
 })
+
+/**
+ * @swagger
+ * /policy:
+ *   post:
+ *     summary: Emitir apólice
+ *     tags:
+ *       - Policy
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - cpf
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Pedro QA
+ *               cpf:
+ *                 type: string
+ *                 example: "12345678900"
+ *     responses:
+ *       201:
+ *         description: Apólice emitida com sucesso
+ *       400:
+ *         description: CPF inválido ou campos obrigatórios
+ *       409:
+ *         description: CPF já cadastrado
+ */
 
 // POLICY
 app.post('/policy', async (req, res) => {
