@@ -56,6 +56,10 @@ jobs:
           mkdir -p performance/jmeter/results
           mkdir -p performance/jmeter/html-report
 
+      - name: Limpar relatório antigo
+        run: |
+          rm -rf performance/jmeter/html-report
+
       - name: Rodar JMeter
         run: |
           apache-jmeter-5.6.3/bin/jmeter \
