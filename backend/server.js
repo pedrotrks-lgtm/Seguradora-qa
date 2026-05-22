@@ -19,6 +19,35 @@ app.use(cors())
 app.use(express.json())
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     summary: Realizar login
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: qa@b3.com
+ *               password:
+ *                 type: string
+ *                 example: "123456"
+ *     responses:
+ *       200:
+ *         description: Login realizado com sucesso
+ *       401:
+ *         description: Usuário ou senha inválidos
+ */
 // LOGIN
 app.post('/login', async (req, res) => {
   const { email, password } = req.body
@@ -136,6 +165,39 @@ if (existingPolicy) {
   })
 })
 
+/**
+ * @swagger
+ * /client:
+ *   post:
+ *     summary: Cadastrar cliente
+ *     tags:
+ *       - Client
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - cpf
+ *               - policy
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Cliente Teste
+ *               cpf:
+ *                 type: string
+ *                 example: "12345678900"
+ *               policy:
+ *                 type: string
+ *                 example: Seguro Auto
+ *     responses:
+ *       201:
+ *         description: Cliente cadastrado com sucesso
+ *       400:
+ *         description: CPF inválido ou campos obrigatórios
+ */
 // CLIENT
 app.post('/client', async (req, res) => {
   const { name, cpf, policy } = req.body
@@ -169,15 +231,175 @@ app.post('/client', async (req, res) => {
   })
 })
 
+/**
+ * @swagger
+ * /clients:
+ *   get:
+ *     summary: Listar clientes
+ *     tags:
+ *       - Client
+ *     responses:
+ *       200:
+ *         description: Lista de clientes cadastrados
+ */
 app.get('/clients', async (req, res) => {
   const clients = await Client.find()
 
   return res.status(200).json(clients)
 })
 
+/**
+ * @swagger
+ * /policy/{id}:
+ *   put:
+ *     summary: Atualizar apólice
+ *     tags:
+ *       - Policy
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Apólice atualizada
+ *       404:
+ *         description: Apólice não encontrada
+ */
+// ATUALIZAR POLICY
+app.put('/policy/:id', async (req, res) => {
+  const { id } = req.params
+  const { name, status } = req.body
 
+  const policy = await Policy.findById(id)
 
+  if (!policy) {
+    return res.status(404).json({
+      error: 'POLICY_NOT_FOUND',
+      message: 'Apólice não encontrada'
+    })
+  }
 
+  if (name) {
+    policy.name = name
+  }
+
+  if (status) {
+    policy.status = status
+  }
+
+  await policy.save()
+
+  return res.status(200).json({
+    policyId: policy._id,
+    status: policy.status,
+    message: 'Apólice atualizada com sucesso'
+  })
+})
+
+/**
+ * @swagger
+ * /policy/{id}:
+ *   get:
+ *     summary: Buscar apólice por ID
+ *     tags:
+ *       - Policy
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Apólice encontrada
+ *       404:
+ *         description: Apólice não encontrada
+ */
+// BUSCAR POLICY POR ID
+app.get('/policy/:id', async (req, res) => {
+  const { id } = req.params
+
+  const policy = await Policy.findById(id)
+
+  if (!policy) {
+    return res.status(404).json({
+      error: 'POLICY_NOT_FOUND',
+      message: 'Apólice não encontrada'
+    })
+  }
+
+  return res.status(200).json(policy)
+})
+
+/**
+ * @swagger
+ * /policies:
+ *   get:
+ *     summary: Listar apólices
+ *     tags:
+ *       - Policy
+ *     responses:
+ *       200:
+ *         description: Lista de apólices
+ */
+// LISTAR POLICIES
+app.get('/policies', async (req, res) => {
+  const policies = await Policy.find()
+
+  return res.status(200).json(policies)
+})
+
+/**
+ * @swagger
+ * /policy/{id}:
+ *   delete:
+ *     summary: Remover apólice
+ *     tags:
+ *       - Policy
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Apólice removida com sucesso
+ *       404:
+ *         description: Apólice não encontrada
+ */
+// REMOVER POLICY
+app.delete('/policy/:id', async (req, res) => {
+  const { id } = req.params
+
+  const policy = await Policy.findById(id)
+
+  if (!policy) {
+    return res.status(404).json({
+      error: 'POLICY_NOT_FOUND',
+      message: 'Apólice não encontrada'
+    })
+  }
+
+  await Policy.findByIdAndDelete(id)
+
+  return res.status(200).json({
+    message: 'Apólice removida com sucesso'
+  })
+})
 app.listen(process.env.PORT || 3000, () => {
   console.log(`API rodando na porta ${process.env.PORT || 3000}`)
 })

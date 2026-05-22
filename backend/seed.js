@@ -9,14 +9,24 @@ const runSeed = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI)
 
-    await User.deleteMany()
+await User.deleteMany({})
 
-    await User.create({
-      email: 'qa@b3.com',
-      password: '123456'
-    })
+await User.insertMany([
+  {
+    email: 'qa@b3.com',
+    password: '123456'
+  },
+  {
+    email: 'olivia@b3.com',
+    password: 'abc1234'
+  },
+  {
+    email: 'karol@b3.com',
+    password: 'abc12345'
+  }
+])
 
-    console.log('Seed executado com sucesso')
+console.log('Usuários criados com sucesso')
     process.exit(0)
 
   } catch (error) {

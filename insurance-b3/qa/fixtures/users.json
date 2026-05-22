@@ -3,9 +3,16 @@
     "email": "qa@b3.com",
     "password": "123456"
   },
-
+  "olivia": {
+    "email": "olivia@b3.com",
+    "password": "abc1234"
+  },
+  "karol": {
+    "email": "karol@b3.com",
+    "password": "abc12345"
+  },
   "invalid": {
-    "email": "qa@b3.com",
-    "password": "999999"
+    "email": "erro@b3.com",
+    "password": "erro"
   }
 }

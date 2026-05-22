@@ -70,3 +70,25 @@ Login API Invalido
     Should Be Equal
     ...    ${json}[message]
     ...    Usuário ou senha inválidos
+
+Login API Com Usuario
+    [Arguments]    ${email}    ${password}
+
+    ${body}=    Create Dictionary
+    ...    email=${email}
+    ...    password=${password}
+
+    ${response}=    POST On Session
+    ...    backend
+    ...    /login
+    ...    json=${body}
+
+    Should Be Equal As Numbers
+    ...    ${response.status_code}
+    ...    200
+
+    Should Not Be Empty
+    ...    ${response.json()["token"]}
+
+    RETURN    ${response}
+

@@ -46,11 +46,12 @@ jobs:
 
           mongoose.connect(process.env.MONGO_URI).then(async () => {
             await User.deleteMany({});
-            await User.create({
-              email: 'qa@b3.com',
-              password: '123456'
-            });
-            console.log('Usuário QA criado no Mongo');
+            await User.insertMany([
+           { email: 'qa@b3.com', password: '123456' },
+           { email: 'olivia@b3.com', password: 'abc1234' },
+           { email: 'karol@b3.com', password: 'abc12345' }
+            ]);
+            console.log('Usuários criados no Mongo');
             await mongoose.disconnect();
           });
           "
