@@ -1,0 +1,72 @@
+name: JMeter Performance Tests
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  jmeter-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências backend
+        working-directory: backend
+        run: npm install
+
+      - name: Criar .env backend
+        working-directory: backend
+        run: |
+          echo "PORT=3000" > .env
+          echo "MONGO_URI=mongodb://localhost:27017/seguradora-b3" >> .env
+
+      - name: Subir backend
+        working-directory: backend
+        run: |
+          node server.js &
+          sleep 8
+
+      - name: Instalar JMeter
+        run: |
+          wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz
+          tar -xzf apache-jmeter-5.6.3.tgz
+
+      - name: Criar pastas de resultado
+        run: |
+          mkdir -p performance/jmeter/results
+          mkdir -p performance/jmeter/html-report
+
+      - name: Rodar JMeter
+        run: |
+          apache-jmeter-5.6.3/bin/jmeter \
+            -n \
+            -t performance/jmeter/seguradora-login-performance.jmx \
+            -l performance/jmeter/results/result.jtl \
+            -e \
+            -o performance/jmeter/html-report
+
+      - name: Publicar relatório JMeter
+        uses: actions/upload-artifact@v4
+        with:
+          name: jmeter-html-report
+          path: performance/jmeter/html-report
