@@ -58,7 +58,8 @@ jobs:
 
       - name: Limpar relatório antigo
         run: |
-          rm -rf performance/jmeter/html-report
+          rm -rf performance/jmeter/html-report/*
+          rm -f performance/jmeter/results/result.jtl
 
       - name: Rodar JMeter
         run: |
@@ -69,8 +70,18 @@ jobs:
             -e \
             -o performance/jmeter/html-report
 
+      - name: Validar arquivos gerados
+        run: |
+          echo "===== RESULTS ====="
+          ls -la performance/jmeter/results
+
+          echo "===== HTML REPORT ====="
+          ls -la performance/jmeter/html-report
+
       - name: Publicar relatório JMeter
         uses: actions/upload-artifact@v4
         with:
           name: jmeter-html-report
-          path: performance/jmeter/html-report
+          path: |
+            performance/jmeter/results/result.jtl
+            performance/jmeter/html-report/**
