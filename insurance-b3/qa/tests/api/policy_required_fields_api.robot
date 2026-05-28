@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    ../../resources/api/PolicyApi.resource
+Resource    ../../resources/api/policyapi.resource
 
 *** Test Cases ***
 Validar Campos Obrigatorios API

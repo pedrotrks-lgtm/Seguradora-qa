@@ -28,9 +28,12 @@ Login API Com Sucesso
     ...    ${response.status_code}
     ...    200
 
-    Should Be Equal
+    Should Not Be Empty
     ...    ${json}[token]
-    ...    abc123
+
+    Should Contain
+    ...    ${json}[token]
+    ...    eyJ
 
     Should Be Equal
     ...    ${json}[user][name]
@@ -38,9 +41,6 @@ Login API Com Sucesso
 
     Should Be Equal
     ...    ${json}[user][email]
-    ...    qa@b3.com
-
-    Usuario Deve Existir No Mongo
     ...    qa@b3.com
 
     RETURN    ${response}

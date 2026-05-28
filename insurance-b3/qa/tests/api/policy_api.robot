@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    ../../resources/api/PolicyApi.resource
+Resource    ../../resources/api/policyapi.resource
 
 *** Test Cases ***
 Validar Emissao Policy API
@@ -8,13 +8,5 @@ Validar Emissao Policy API
 
     ${response}=    Emitir Policy Com Sucesso
 
-    Should Be Equal
-    ...    ${response.json()["status"]}
-    ...    APOLICE_CRIADA
-
-    Should Not Be Empty
-    ...    ${response.json()["policyId"]}
-
-    Should Be Equal
-    ...    ${response.status_code}
-    ...    ${201}
+    Validar Contrato Policy Response
+    ...    ${response}

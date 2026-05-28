@@ -38,20 +38,13 @@ class MongoDBLibrary:
             f"Usuário {email} não encontrado no MongoDB"
         )
 
-    def policy_deve_existir_no_mongo(self, cpf, status):
+    def policy_deve_existir_no_mongo(self, policyNumber, status):
+     policy = self.db["policies"].find_one({
+        "policyNumber": policyNumber,
+        "status": status
+    })
 
-        for _ in range(5):
-
-            policy = self.db["policies"].find_one({
-                "cpf": str(cpf),
-                "status": status
-            })
-
-            if policy:
-                return True
-
-            time.sleep(1)
-
+     if not policy:
         raise AssertionError(
-            f"Policy com CPF {cpf} e status {status} não encontrada no MongoDB"
+            f"Policy com número {policyNumber} e status {status} não encontrada no MongoDB"
         )

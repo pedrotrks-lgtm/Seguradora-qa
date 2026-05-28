@@ -1,0 +1,1305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.14.5 on win32)" generated="2026-05-28T15:38:45.619787" rpa="false" schemaversion="5">
+<suite id="s1" name="Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api">
+<suite id="s1-s1" name="Client Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\client_api.robot">
+<test id="s1-s1-t1" name="Cadastrar 5 Clientes Randomicos" line="5">
+<kw name="Criar Sessao Client API" owner="ClientApi">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:47.265158" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>backend</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-05-28T15:38:47.264855" elapsed="0.000586"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:47.263003" elapsed="0.002581"/>
+</kw>
+<for flavor="IN RANGE">
+<iter>
+<kw name="Cadastrar Cliente Randomico" owner="ClientApi">
+<kw name="Name" owner="FakerLibrary">
+<msg time="2026-05-28T15:38:47.268066" level="INFO">${nome} = Liz Costa</msg>
+<var>${nome}</var>
+<doc>:example: 'John Doe'</doc>
+<status status="PASS" start="2026-05-28T15:38:47.267671" elapsed="0.000449"/>
+</kw>
+<kw name="Cpf" owner="FakerLibrary">
+<msg time="2026-05-28T15:38:47.268610" level="INFO">${cpf_fake} = 192.807.435-97</msg>
+<var>${cpf_fake}</var>
+<status status="PASS" start="2026-05-28T15:38:47.268309" elapsed="0.000362"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.269952" level="INFO">${cpf} = 192.807.435-97</msg>
+<var>${cpf}</var>
+<arg>re.sub(r'\D', '', '''${cpf_fake}''')</arg>
+<arg>re</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.268862" elapsed="0.001143"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.271177" level="INFO">${body} = {'name': 'Liz Costa', 'cpf': '192.807.435-97', 'policy': 'Seguro Auto'}</msg>
+<var>${body}</var>
+<arg>name=${nome}</arg>
+<arg>cpf=${cpf}</arg>
+<arg>policy=Seguro Auto</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.270216" elapsed="0.001010"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:47.309227" level="INFO">POST Request : url=http://localhost:3000/client 
+ path_url=/client 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '71', 'Content-Type': 'application/json'} 
+ body=b'{"name": "Liz Costa", "cpf": "192.807.435-97", "policy": "Seguro Auto"}' 
+ </msg>
+<msg time="2026-05-28T15:38:47.309348" level="INFO">POST Response : url=http://localhost:3000/client 
+ status=201, reason=Created 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '108', 'ETag': 'W/"6c-IHS/VhgcE0JaGNwZbCksuKfyNYI"', 'Date': 'Thu, 28 May 2026 18:38:47 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"clientId":"6a188bb7b704f768c23acec4","status":"CLIENTE_CRIADO","message":"Cliente cadastrado com sucesso"} 
+ </msg>
+<msg time="2026-05-28T15:38:47.309504" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/client</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.271411" elapsed="0.038126"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.310486" level="INFO">${json} = {'clientId': '6a188bb7b704f768c23acec4', 'status': 'CLIENTE_CRIADO', 'message': 'Cliente cadastrado com sucesso'}</msg>
+<var>${json}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.309690" elapsed="0.000832"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.311611" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.310648" elapsed="0.001039"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[status]</arg>
+<arg>CLIENTE_CRIADO</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.311808" elapsed="0.000341"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.312595" level="INFO">Length is 24.</msg>
+<arg>${json}[clientId]</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.312264" elapsed="0.000384"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-05-28T15:38:47.312707" elapsed="0.000051"/>
+</return>
+<msg time="2026-05-28T15:38:47.312931" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<status status="PASS" start="2026-05-28T15:38:47.267162" elapsed="0.045801"/>
+</kw>
+<var name="${index}">0</var>
+<status status="PASS" start="2026-05-28T15:38:47.266646" elapsed="0.046356"/>
+</iter>
+<iter>
+<kw name="Cadastrar Cliente Randomico" owner="ClientApi">
+<kw name="Name" owner="FakerLibrary">
+<msg time="2026-05-28T15:38:47.313743" level="INFO">${nome} = Matteo Ramos</msg>
+<var>${nome}</var>
+<doc>:example: 'John Doe'</doc>
+<status status="PASS" start="2026-05-28T15:38:47.313565" elapsed="0.000209"/>
+</kw>
+<kw name="Cpf" owner="FakerLibrary">
+<msg time="2026-05-28T15:38:47.314051" level="INFO">${cpf_fake} = 621.048.975-30</msg>
+<var>${cpf_fake}</var>
+<status status="PASS" start="2026-05-28T15:38:47.313879" elapsed="0.000202"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.314662" level="INFO">${cpf} = 621.048.975-30</msg>
+<var>${cpf}</var>
+<arg>re.sub(r'\D', '', '''${cpf_fake}''')</arg>
+<arg>re</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.314193" elapsed="0.000501"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.315280" level="INFO">${body} = {'name': 'Matteo Ramos', 'cpf': '621.048.975-30', 'policy': 'Seguro Auto'}</msg>
+<var>${body}</var>
+<arg>name=${nome}</arg>
+<arg>cpf=${cpf}</arg>
+<arg>policy=Seguro Auto</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.314822" elapsed="0.000491"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:47.328419" level="INFO">POST Request : url=http://localhost:3000/client 
+ path_url=/client 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '74', 'Content-Type': 'application/json'} 
+ body=b'{"name": "Matteo Ramos", "cpf": "621.048.975-30", "policy": "Seguro Auto"}' 
+ </msg>
+<msg time="2026-05-28T15:38:47.328506" level="INFO">POST Response : url=http://localhost:3000/client 
+ status=201, reason=Created 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '108', 'ETag': 'W/"6c-huHiVecj524xm7qYwvk94CnGCpQ"', 'Date': 'Thu, 28 May 2026 18:38:47 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"clientId":"6a188bb7b704f768c23acec5","status":"CLIENTE_CRIADO","message":"Cliente cadastrado com sucesso"} 
+ </msg>
+<msg time="2026-05-28T15:38:47.328660" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/client</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.315436" elapsed="0.013255"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.329583" level="INFO">${json} = {'clientId': '6a188bb7b704f768c23acec5', 'status': 'CLIENTE_CRIADO', 'message': 'Cliente cadastrado com sucesso'}</msg>
+<var>${json}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.328866" elapsed="0.000751"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.330300" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.329744" elapsed="0.000630"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[status]</arg>
+<arg>CLIENTE_CRIADO</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.330490" elapsed="0.000327"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.331231" level="INFO">Length is 24.</msg>
+<arg>${json}[clientId]</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.330930" elapsed="0.000351"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-05-28T15:38:47.331337" elapsed="0.000042"/>
+</return>
+<msg time="2026-05-28T15:38:47.331537" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<status status="PASS" start="2026-05-28T15:38:47.313315" elapsed="0.018252"/>
+</kw>
+<var name="${index}">1</var>
+<status status="PASS" start="2026-05-28T15:38:47.313119" elapsed="0.018483"/>
+</iter>
+<iter>
+<kw name="Cadastrar Cliente Randomico" owner="ClientApi">
+<kw name="Name" owner="FakerLibrary">
+<msg time="2026-05-28T15:38:47.332287" level="INFO">${nome} = Luana Moraes</msg>
+<var>${nome}</var>
+<doc>:example: 'John Doe'</doc>
+<status status="PASS" start="2026-05-28T15:38:47.332114" elapsed="0.000203"/>
+</kw>
+<kw name="Cpf" owner="FakerLibrary">
+<msg time="2026-05-28T15:38:47.332583" level="INFO">${cpf_fake} = 605.374.219-80</msg>
+<var>${cpf_fake}</var>
+<status status="PASS" start="2026-05-28T15:38:47.332420" elapsed="0.000192"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.333136" level="INFO">${cpf} = 605.374.219-80</msg>
+<var>${cpf}</var>
+<arg>re.sub(r'\D', '', '''${cpf_fake}''')</arg>
+<arg>re</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.332711" elapsed="0.000458"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.333724" level="INFO">${body} = {'name': 'Luana Moraes', 'cpf': '605.374.219-80', 'policy': 'Seguro Auto'}</msg>
+<var>${body}</var>
+<arg>name=${nome}</arg>
+<arg>cpf=${cpf}</arg>
+<arg>policy=Seguro Auto</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.333291" elapsed="0.000465"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:47.355948" level="INFO">POST Request : url=http://localhost:3000/client 
+ path_url=/client 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '74', 'Content-Type': 'application/json'} 
+ body=b'{"name": "Luana Moraes", "cpf": "605.374.219-80", "policy": "Seguro Auto"}' 
+ </msg>
+<msg time="2026-05-28T15:38:47.356191" level="INFO">POST Response : url=http://localhost:3000/client 
+ status=201, reason=Created 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '108', 'ETag': 'W/"6c-AssN6jJm6StjomEdMko9Z0DC6fY"', 'Date': 'Thu, 28 May 2026 18:38:47 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"clientId":"6a188bb7b704f768c23acec6","status":"CLIENTE_CRIADO","message":"Cliente cadastrado com sucesso"} 
+ </msg>
+<msg time="2026-05-28T15:38:47.356574" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/client</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.333876" elapsed="0.022797"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.359338" level="INFO">${json} = {'clientId': '6a188bb7b704f768c23acec6', 'status': 'CLIENTE_CRIADO', 'message': 'Cliente cadastrado com sucesso'}</msg>
+<var>${json}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.357121" elapsed="0.002332"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.361719" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.359851" elapsed="0.002089"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[status]</arg>
+<arg>CLIENTE_CRIADO</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.362332" elapsed="0.001138"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.364834" level="INFO">Length is 24.</msg>
+<arg>${json}[clientId]</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.363856" elapsed="0.001150"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-05-28T15:38:47.365181" elapsed="0.000112"/>
+</return>
+<msg time="2026-05-28T15:38:47.365770" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<status status="PASS" start="2026-05-28T15:38:47.331880" elapsed="0.033995"/>
+</kw>
+<var name="${index}">2</var>
+<status status="PASS" start="2026-05-28T15:38:47.331710" elapsed="0.034284"/>
+</iter>
+<iter>
+<kw name="Cadastrar Cliente Randomico" owner="ClientApi">
+<kw name="Name" owner="FakerLibrary">
+<msg time="2026-05-28T15:38:47.368211" level="INFO">${nome} = Raquel Jesus</msg>
+<var>${nome}</var>
+<doc>:example: 'John Doe'</doc>
+<status status="PASS" start="2026-05-28T15:38:47.367641" elapsed="0.000676"/>
+</kw>
+<kw name="Cpf" owner="FakerLibrary">
+<msg time="2026-05-28T15:38:47.369204" level="INFO">${cpf_fake} = 958.317.204-97</msg>
+<var>${cpf_fake}</var>
+<status status="PASS" start="2026-05-28T15:38:47.368661" elapsed="0.000644"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.371076" level="INFO">${cpf} = 958.317.204-97</msg>
+<var>${cpf}</var>
+<arg>re.sub(r'\D', '', '''${cpf_fake}''')</arg>
+<arg>re</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.369662" elapsed="0.001523"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.373045" level="INFO">${body} = {'name': 'Raquel Jesus', 'cpf': '958.317.204-97', 'policy': 'Seguro Auto'}</msg>
+<var>${body}</var>
+<arg>name=${nome}</arg>
+<arg>cpf=${cpf}</arg>
+<arg>policy=Seguro Auto</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.371593" elapsed="0.001553"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:47.399544" level="INFO">POST Request : url=http://localhost:3000/client 
+ path_url=/client 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '74', 'Content-Type': 'application/json'} 
+ body=b'{"name": "Raquel Jesus", "cpf": "958.317.204-97", "policy": "Seguro Auto"}' 
+ </msg>
+<msg time="2026-05-28T15:38:47.399866" level="INFO">POST Response : url=http://localhost:3000/client 
+ status=201, reason=Created 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '108', 'ETag': 'W/"6c-EGJA2LnLaAO86JfSvZPeqlIhIkg"', 'Date': 'Thu, 28 May 2026 18:38:47 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"clientId":"6a188bb7b704f768c23acec7","status":"CLIENTE_CRIADO","message":"Cliente cadastrado com sucesso"} 
+ </msg>
+<msg time="2026-05-28T15:38:47.400259" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/client</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.373523" elapsed="0.026840"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.403047" level="INFO">${json} = {'clientId': '6a188bb7b704f768c23acec7', 'status': 'CLIENTE_CRIADO', 'message': 'Cliente cadastrado com sucesso'}</msg>
+<var>${json}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.400813" elapsed="0.002348"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.405422" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.403552" elapsed="0.002093"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[status]</arg>
+<arg>CLIENTE_CRIADO</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.406035" elapsed="0.001076"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.408443" level="INFO">Length is 24.</msg>
+<arg>${json}[clientId]</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.407488" elapsed="0.001123"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-05-28T15:38:47.408789" elapsed="0.000114"/>
+</return>
+<msg time="2026-05-28T15:38:47.409384" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<status status="PASS" start="2026-05-28T15:38:47.366860" elapsed="0.042624"/>
+</kw>
+<var name="${index}">3</var>
+<status status="PASS" start="2026-05-28T15:38:47.366311" elapsed="0.043292"/>
+</iter>
+<iter>
+<kw name="Cadastrar Cliente Randomico" owner="ClientApi">
+<kw name="Name" owner="FakerLibrary">
+<msg time="2026-05-28T15:38:47.411881" level="INFO">${nome} = Yasmin Moraes</msg>
+<var>${nome}</var>
+<doc>:example: 'John Doe'</doc>
+<status status="PASS" start="2026-05-28T15:38:47.411320" elapsed="0.000665"/>
+</kw>
+<kw name="Cpf" owner="FakerLibrary">
+<msg time="2026-05-28T15:38:47.412886" level="INFO">${cpf_fake} = 367.542.189-91</msg>
+<var>${cpf_fake}</var>
+<status status="PASS" start="2026-05-28T15:38:47.412342" elapsed="0.000644"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.414749" level="INFO">${cpf} = 367.542.189-91</msg>
+<var>${cpf}</var>
+<arg>re.sub(r'\D', '', '''${cpf_fake}''')</arg>
+<arg>re</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.413335" elapsed="0.001521"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.416692" level="INFO">${body} = {'name': 'Yasmin Moraes', 'cpf': '367.542.189-91', 'policy': 'Seguro Auto'}</msg>
+<var>${body}</var>
+<arg>name=${nome}</arg>
+<arg>cpf=${cpf}</arg>
+<arg>policy=Seguro Auto</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.415261" elapsed="0.001542"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:47.439480" level="INFO">POST Request : url=http://localhost:3000/client 
+ path_url=/client 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '75', 'Content-Type': 'application/json'} 
+ body=b'{"name": "Yasmin Moraes", "cpf": "367.542.189-91", "policy": "Seguro Auto"}' 
+ </msg>
+<msg time="2026-05-28T15:38:47.439566" level="INFO">POST Response : url=http://localhost:3000/client 
+ status=201, reason=Created 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '108', 'ETag': 'W/"6c-JYO7We9/nmepw7LdJ05jCWmzq4I"', 'Date': 'Thu, 28 May 2026 18:38:47 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"clientId":"6a188bb7b704f768c23acec8","status":"CLIENTE_CRIADO","message":"Cliente cadastrado com sucesso"} 
+ </msg>
+<msg time="2026-05-28T15:38:47.439692" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/client</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.417208" elapsed="0.022515"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.440606" level="INFO">${json} = {'clientId': '6a188bb7b704f768c23acec8', 'status': 'CLIENTE_CRIADO', 'message': 'Cliente cadastrado com sucesso'}</msg>
+<var>${json}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.439892" elapsed="0.000749"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.441333" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.440764" elapsed="0.000672"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[status]</arg>
+<arg>CLIENTE_CRIADO</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.441557" elapsed="0.000339"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<msg time="2026-05-28T15:38:47.442307" level="INFO">Length is 24.</msg>
+<arg>${json}[clientId]</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="PASS" start="2026-05-28T15:38:47.442011" elapsed="0.000347"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-05-28T15:38:47.442412" elapsed="0.000036"/>
+</return>
+<msg time="2026-05-28T15:38:47.442597" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<status status="PASS" start="2026-05-28T15:38:47.410555" elapsed="0.032074"/>
+</kw>
+<var name="${index}">4</var>
+<status status="PASS" start="2026-05-28T15:38:47.409924" elapsed="0.032743"/>
+</iter>
+<var>${index}</var>
+<value>5</value>
+<status status="PASS" start="2026-05-28T15:38:47.266191" elapsed="0.176518"/>
+</for>
+<status status="PASS" start="2026-05-28T15:38:47.261961" elapsed="0.181051"/>
+</test>
+<status status="PASS" start="2026-05-28T15:38:45.699597" elapsed="1.744290"/>
+</suite>
+<suite id="s1-s2" name="Contract Policy Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\contract_policy_api.robot">
+<test id="s1-s2-t1" name="Validar Contrato Policy API" line="5">
+<kw name="Criar Sessao Policy API" owner="PolicyApi">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.164882" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>backend</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-05-28T15:38:48.164669" elapsed="0.000400"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:48.164145" elapsed="0.001034"/>
+</kw>
+<kw name="Emitir Policy Com Sucesso" owner="PolicyApi">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.167435" level="INFO">${cpf} = 35604835036</msg>
+<var>${cpf}</var>
+<arg>str(random.randint(10000000000, 99999999999))</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.166128" elapsed="0.001600"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.169207" level="INFO">${body} = {'name': 'Pedro QA', 'cpf': '35604835036'}</msg>
+<var>${body}</var>
+<arg>name=Pedro QA</arg>
+<arg>cpf=${cpf}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.168193" elapsed="0.001084"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.173181" level="INFO">POST Request : url=http://localhost:3000/policy 
+ path_url=/policy 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '42', 'Content-Type': 'application/json'} 
+ body=b'{"name": "Pedro QA", "cpf": "35604835036"}' 
+ </msg>
+<msg time="2026-05-28T15:38:48.173265" level="INFO">POST Response : url=http://localhost:3000/policy 
+ status=400, reason=Bad Request 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '94', 'ETag': 'W/"5e-0mOhbMplnmVubdpmmVYf/VyXJtI"', 'Date': 'Thu, 28 May 2026 18:38:48 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"error":"REQUIRED_FIELDS","message":"Preencha todos os campos obrigatórios do registro SRO"} 
+ </msg>
+<msg time="2026-05-28T15:38:48.173432" level="FAIL">HTTPError: 400 Client Error: Bad Request for url: http://localhost:3000/policy</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/policy</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2026-05-28T15:38:48.169530" elapsed="0.088685">HTTPError: 400 Client Error: Bad Request for url: http://localhost:3000/policy</status>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<var>${json}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.258721" elapsed="0.000163"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.259130" elapsed="0.000044"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[status]</arg>
+<arg>APOLICE_CRIADA</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.259420" elapsed="0.000049"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[message]</arg>
+<arg>Apólice emitida com sucesso</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.259656" elapsed="0.000030"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<arg>${json}[policyId]</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.259804" elapsed="0.000026"/>
+</kw>
+<kw name="Policy Deve Existir No Mongo" owner="MongoDBLibrary">
+<arg>${cpf}</arg>
+<arg>CREATED</arg>
+<status status="NOT RUN" start="2026-05-28T15:38:48.259979" elapsed="0.000035"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="NOT RUN" start="2026-05-28T15:38:48.260224" elapsed="0.000041"/>
+</return>
+<var>${response}</var>
+<status status="FAIL" start="2026-05-28T15:38:48.165637" elapsed="0.094978">HTTPError: 400 Client Error: Bad Request for url: http://localhost:3000/policy</status>
+</kw>
+<kw name="Validar Contrato Policy Response" owner="PolicyApi">
+<arg>${response}</arg>
+<status status="NOT RUN" start="2026-05-28T15:38:48.264351" elapsed="0.000065"/>
+</kw>
+<status status="FAIL" start="2026-05-28T15:38:48.163037" elapsed="0.101956">HTTPError: 400 Client Error: Bad Request for url: http://localhost:3000/policy</status>
+</test>
+<status status="FAIL" start="2026-05-28T15:38:47.444619" elapsed="0.821193"/>
+</suite>
+<suite id="s1-s3" name="Login Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\login_api.robot">
+<test id="s1-s3-t1" name="Validar Login API" line="5">
+<kw name="Criar Sessao API" owner="AuthApi">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.297302" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>backend</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-05-28T15:38:48.297052" elapsed="0.000447"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:48.296561" elapsed="0.001036"/>
+</kw>
+<kw name="Login API Com Sucesso" owner="AuthApi">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.299386" level="INFO">${body} = {'email': 'qa@b3.com', 'password': '123456'}</msg>
+<var>${body}</var>
+<arg>email=qa@b3.com</arg>
+<arg>password=123456</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.298974" elapsed="0.000476"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.303017" level="INFO">POST Request : url=http://localhost:3000/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '44', 'Content-Type': 'application/json'} 
+ body=b'{"email": "qa@b3.com", "password": "123456"}' 
+ </msg>
+<msg time="2026-05-28T15:38:48.303377" level="INFO">POST Response : url=http://localhost:3000/login 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '211', 'ETag': 'W/"d3-VuVTNzduFWt3sGs70PgUwx7mFlo"', 'Date': 'Thu, 28 May 2026 18:38:48 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InFhQGIzLmNvbSIsImlhdCI6MTc3OTk5MzUyOCwiZXhwIjoxNzc5OTk3MTI4fQ.09xORxrfsNT1L5e2LN8F06l1IirO7cAh2lg5mZ6pLlY","user":{"name":"QA B3","email":"qa@b3.com"}} 
+ </msg>
+<msg time="2026-05-28T15:38:48.303688" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/login</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.299578" elapsed="0.004167"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.305819" level="INFO">${json} = {'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InFhQGIzLmNvbSIsImlhdCI6MTc3OTk5MzUyOCwiZXhwIjoxNzc5OTk3MTI4fQ.09xORxrfsNT1L5e2LN8F06l1IirO7cAh2lg5mZ6pLlY', 'user': {'name': 'QA B3', 'emai...</msg>
+<var>${json}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.304058" elapsed="0.001816"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.307219" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.306152" elapsed="0.001163"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.308144" level="FAIL">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InFhQGIzLmNvbSIsImlhdCI6MTc3OTk5MzUyOCwiZXhwIjoxNzc5OTk3MTI4fQ.09xORxrfsNT1L5e2LN8F06l1IirO7cAh2lg5mZ6pLlY != abc123</msg>
+<arg>${json}[token]</arg>
+<arg>abc123</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="FAIL" start="2026-05-28T15:38:48.307541" elapsed="0.000723">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InFhQGIzLmNvbSIsImlhdCI6MTc3OTk5MzUyOCwiZXhwIjoxNzc5OTk3MTI4fQ.09xORxrfsNT1L5e2LN8F06l1IirO7cAh2lg5mZ6pLlY != abc123</status>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[user][name]</arg>
+<arg>QA B3</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.308433" elapsed="0.000030"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[user][email]</arg>
+<arg>qa@b3.com</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.308573" elapsed="0.000031"/>
+</kw>
+<kw name="Usuario Deve Existir No Mongo" owner="MongoDBLibrary">
+<arg>qa@b3.com</arg>
+<status status="NOT RUN" start="2026-05-28T15:38:48.308724" elapsed="0.000022"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="NOT RUN" start="2026-05-28T15:38:48.308797" elapsed="0.000026"/>
+</return>
+<var>${response}</var>
+<status status="FAIL" start="2026-05-28T15:38:48.298161" elapsed="0.010798">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InFhQGIzLmNvbSIsImlhdCI6MTc3OTk5MzUyOCwiZXhwIjoxNzc5OTk3MTI4fQ.09xORxrfsNT1L5e2LN8F06l1IirO7cAh2lg5mZ6pLlY != abc123</status>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>${200}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.309464" elapsed="0.000037"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${response.json()["user"]["name"]}</arg>
+<arg>QA B3</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.309907" elapsed="0.000033"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${response.json()["user"]["email"]}</arg>
+<arg>qa@b3.com</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.310721" elapsed="0.000034"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<arg>${response.json()["token"]}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.310942" elapsed="0.000025"/>
+</kw>
+<status status="FAIL" start="2026-05-28T15:38:48.294885" elapsed="0.016360">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InFhQGIzLmNvbSIsImlhdCI6MTc3OTk5MzUyOCwiZXhwIjoxNzc5OTk3MTI4fQ.09xORxrfsNT1L5e2LN8F06l1IirO7cAh2lg5mZ6pLlY != abc123</status>
+</test>
+<status status="FAIL" start="2026-05-28T15:38:48.266768" elapsed="0.045167"/>
+</suite>
+<suite id="s1-s4" name="Login Api Negative" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\login_api_negative.robot">
+<test id="s1-s4-t1" name="Validar Login API Invalido" line="5">
+<kw name="Criar Sessao API" owner="AuthApi">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.318446" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>backend</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-05-28T15:38:48.318263" elapsed="0.000394"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:48.317955" elapsed="0.000789"/>
+</kw>
+<kw name="Login API Invalido" owner="AuthApi">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.320232" level="INFO">${body} = {'email': 'erro', 'password': 'erro'}</msg>
+<var>${body}</var>
+<arg>email=erro</arg>
+<arg>password=erro</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.319382" elapsed="0.000907"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.333272" level="INFO">POST Request : url=http://localhost:3000/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '37', 'Content-Type': 'application/json'} 
+ body=b'{"email": "erro", "password": "erro"}' 
+ </msg>
+<msg time="2026-05-28T15:38:48.333360" level="INFO">POST Response : url=http://localhost:3000/login 
+ status=401, reason=Unauthorized 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '72', 'ETag': 'W/"48-KzSACSXseXfy32HdoAcFjIat//I"', 'Date': 'Thu, 28 May 2026 18:38:48 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"error":"INVALID_CREDENTIALS","message":"Usuário ou senha inválidos"} 
+ </msg>
+<msg time="2026-05-28T15:38:48.333500" level="INFO">${response} = &lt;Response [401]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/login</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.320469" elapsed="0.013075"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.335107" level="INFO">${json} = {'error': 'INVALID_CREDENTIALS', 'message': 'Usuário ou senha inválidos'}</msg>
+<var>${json}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.333735" elapsed="0.001428"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.335974" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>401</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.335333" elapsed="0.000730"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[error]</arg>
+<arg>INVALID_CREDENTIALS</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.336203" elapsed="0.000808"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[message]</arg>
+<arg>Usuário ou senha inválidos</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.337196" elapsed="0.000429"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:48.319066" elapsed="0.018653"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:48.317168" elapsed="0.021764"/>
+</test>
+<status status="PASS" start="2026-05-28T15:38:48.312722" elapsed="0.028725"/>
+</suite>
+<suite id="s1-s5" name="Login Multi Usuario Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\login_multi_usuario_api.robot">
+<test id="s1-s5-t1" name="Validar Login API Com Multiplos Usuarios" line="6">
+<kw name="Criar Sessao API" owner="AuthApi">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.363889" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>backend</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-05-28T15:38:48.363695" elapsed="0.000374"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:48.363202" elapsed="0.000950"/>
+</kw>
+<kw name="Login API Com Usuario" owner="AuthApi">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.366884" level="INFO">${body} = {'email': 'qa@b3.com', 'password': '123456'}</msg>
+<var>${body}</var>
+<arg>email=${email}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.366164" elapsed="0.000771"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.374657" level="INFO">POST Request : url=http://localhost:3000/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '44', 'Content-Type': 'application/json'} 
+ body=b'{"email": "qa@b3.com", "password": "123456"}' 
+ </msg>
+<msg time="2026-05-28T15:38:48.374747" level="INFO">POST Response : url=http://localhost:3000/login 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '211', 'ETag': 'W/"d3-VuVTNzduFWt3sGs70PgUwx7mFlo"', 'Date': 'Thu, 28 May 2026 18:38:48 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InFhQGIzLmNvbSIsImlhdCI6MTc3OTk5MzUyOCwiZXhwIjoxNzc5OTk3MTI4fQ.09xORxrfsNT1L5e2LN8F06l1IirO7cAh2lg5mZ6pLlY","user":{"name":"QA B3","email":"qa@b3.com"}} 
+ </msg>
+<msg time="2026-05-28T15:38:48.374888" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/login</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.367102" elapsed="0.007819"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.375768" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.375079" elapsed="0.000762"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.376643" level="INFO">Length is 155.</msg>
+<arg>${response.json()["token"]}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.375969" elapsed="0.000731"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-05-28T15:38:48.376760" elapsed="0.000039"/>
+</return>
+<msg time="2026-05-28T15:38:48.376961" level="INFO">${response_user_1} = &lt;Response [200]&gt;</msg>
+<var>${response_user_1}</var>
+<arg>${USER_1_EMAIL}</arg>
+<arg>${USER_1_PASSWORD}</arg>
+<status status="PASS" start="2026-05-28T15:38:48.365555" elapsed="0.011438"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${response_user_1.json()["user"]["email"]}</arg>
+<arg>${USER_1_EMAIL}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.377252" elapsed="0.000729"/>
+</kw>
+<kw name="Login API Com Usuario" owner="AuthApi">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.379065" level="INFO">${body} = {'email': 'olivia@b3.com', 'password': 'abc1234'}</msg>
+<var>${body}</var>
+<arg>email=${email}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.378639" elapsed="0.000459"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.381461" level="INFO">POST Request : url=http://localhost:3000/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '49', 'Content-Type': 'application/json'} 
+ body=b'{"email": "olivia@b3.com", "password": "abc1234"}' 
+ </msg>
+<msg time="2026-05-28T15:38:48.381546" level="INFO">POST Response : url=http://localhost:3000/login 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '224', 'ETag': 'W/"e0-sUqC+0rD18U32IUp9WYp8MhqupI"', 'Date': 'Thu, 28 May 2026 18:38:48 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9saXZpYUBiMy5jb20iLCJpYXQiOjE3Nzk5OTM1MjgsImV4cCI6MTc3OTk5NzEyOH0.UGXG3wm_xvp7BcemwKgxQbDcT6nECJ0coGLhYiZ6Vk0","user":{"name":"Olivia QA","email":"olivia@b3.com"}} 
+ </msg>
+<msg time="2026-05-28T15:38:48.381668" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/login</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.379217" elapsed="0.002481"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.382501" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.381865" elapsed="0.000704"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.383313" level="INFO">Length is 160.</msg>
+<arg>${response.json()["token"]}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.382710" elapsed="0.000656"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-05-28T15:38:48.383423" elapsed="0.000038"/>
+</return>
+<msg time="2026-05-28T15:38:48.383624" level="INFO">${response_user_2} = &lt;Response [200]&gt;</msg>
+<var>${response_user_2}</var>
+<arg>${USER_2_EMAIL}</arg>
+<arg>${USER_2_PASSWORD}</arg>
+<status status="PASS" start="2026-05-28T15:38:48.378281" elapsed="0.005375"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${response_user_2.json()["user"]["email"]}</arg>
+<arg>${USER_2_EMAIL}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.383886" elapsed="0.000828"/>
+</kw>
+<kw name="Login API Com Usuario" owner="AuthApi">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.385883" level="INFO">${body} = {'email': 'karol@b3.com', 'password': 'abc12345'}</msg>
+<var>${body}</var>
+<arg>email=${email}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.385423" elapsed="0.000494"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.389532" level="INFO">POST Request : url=http://localhost:3000/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '49', 'Content-Type': 'application/json'} 
+ body=b'{"email": "karol@b3.com", "password": "abc12345"}' 
+ </msg>
+<msg time="2026-05-28T15:38:48.389669" level="INFO">POST Response : url=http://localhost:3000/login 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '221', 'ETag': 'W/"dd-J9uVamROdSQ+qyJGGA1PMVhHoug"', 'Date': 'Thu, 28 May 2026 18:38:48 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imthcm9sQGIzLmNvbSIsImlhdCI6MTc3OTk5MzUyOCwiZXhwIjoxNzc5OTk3MTI4fQ.dvP6V2C8PvjzRpi5wwHQQS9ARPdOmxlWO7ng3vHD09o","user":{"name":"Karol QA","email":"karol@b3.com"}} 
+ </msg>
+<msg time="2026-05-28T15:38:48.389851" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/login</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.386039" elapsed="0.003849"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.390976" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.390144" elapsed="0.000938"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.391929" level="INFO">Length is 159.</msg>
+<arg>${response.json()["token"]}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.391223" elapsed="0.000770"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-05-28T15:38:48.392061" elapsed="0.000049"/>
+</return>
+<msg time="2026-05-28T15:38:48.392324" level="INFO">${response_user_3} = &lt;Response [200]&gt;</msg>
+<var>${response_user_3}</var>
+<arg>${USER_3_EMAIL}</arg>
+<arg>${USER_3_PASSWORD}</arg>
+<status status="PASS" start="2026-05-28T15:38:48.385053" elapsed="0.007307"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${response_user_3.json()["user"]["email"]}</arg>
+<arg>${USER_3_EMAIL}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.394211" elapsed="0.001127"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:48.362441" elapsed="0.033783"/>
+</test>
+<status status="PASS" start="2026-05-28T15:38:48.343784" elapsed="0.053502"/>
+</suite>
+<suite id="s1-s6" name="Policy Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\policy_api.robot">
+<test id="s1-s6-t1" name="Validar Emissao Policy API" line="5">
+<kw name="Criar Sessao Policy API" owner="PolicyApi">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.408828" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>backend</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-05-28T15:38:48.408454" elapsed="0.000628"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:48.407968" elapsed="0.001241"/>
+</kw>
+<kw name="Emitir Policy Com Sucesso" owner="PolicyApi">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.414524" level="INFO">${cpf} = 29739867813</msg>
+<var>${cpf}</var>
+<arg>str(random.randint(10000000000, 99999999999))</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.413816" elapsed="0.000756"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.415245" level="INFO">${body} = {'name': 'Pedro QA', 'cpf': '29739867813'}</msg>
+<var>${body}</var>
+<arg>name=Pedro QA</arg>
+<arg>cpf=${cpf}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.414760" elapsed="0.000521"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.418246" level="INFO">POST Request : url=http://localhost:3000/policy 
+ path_url=/policy 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '42', 'Content-Type': 'application/json'} 
+ body=b'{"name": "Pedro QA", "cpf": "29739867813"}' 
+ </msg>
+<msg time="2026-05-28T15:38:48.418332" level="INFO">POST Response : url=http://localhost:3000/policy 
+ status=400, reason=Bad Request 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '94', 'ETag': 'W/"5e-0mOhbMplnmVubdpmmVYf/VyXJtI"', 'Date': 'Thu, 28 May 2026 18:38:48 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"error":"REQUIRED_FIELDS","message":"Preencha todos os campos obrigatórios do registro SRO"} 
+ </msg>
+<msg time="2026-05-28T15:38:48.418493" level="FAIL">HTTPError: 400 Client Error: Bad Request for url: http://localhost:3000/policy</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/policy</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2026-05-28T15:38:48.415451" elapsed="0.004002">HTTPError: 400 Client Error: Bad Request for url: http://localhost:3000/policy</status>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<var>${json}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.420006" elapsed="0.000051"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.420234" elapsed="0.000032"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[status]</arg>
+<arg>APOLICE_CRIADA</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.420444" elapsed="0.000063"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[message]</arg>
+<arg>Apólice emitida com sucesso</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.420760" elapsed="0.000057"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<arg>${json}[policyId]</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.421100" elapsed="0.000063"/>
+</kw>
+<kw name="Policy Deve Existir No Mongo" owner="MongoDBLibrary">
+<arg>${cpf}</arg>
+<arg>CREATED</arg>
+<status status="NOT RUN" start="2026-05-28T15:38:48.421447" elapsed="0.000073"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="NOT RUN" start="2026-05-28T15:38:48.421680" elapsed="0.000107"/>
+</return>
+<var>${response}</var>
+<status status="FAIL" start="2026-05-28T15:38:48.412964" elapsed="0.009070">HTTPError: 400 Client Error: Bad Request for url: http://localhost:3000/policy</status>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${response.json()["status"]}</arg>
+<arg>APOLICE_CRIADA</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.422556" elapsed="0.000039"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<arg>${response.json()["policyId"]}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.423262" elapsed="0.000040"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>${201}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.423888" elapsed="0.000036"/>
+</kw>
+<status status="FAIL" start="2026-05-28T15:38:48.407242" elapsed="0.016968">HTTPError: 400 Client Error: Bad Request for url: http://localhost:3000/policy</status>
+</test>
+<status status="FAIL" start="2026-05-28T15:38:48.397946" elapsed="0.027011"/>
+</suite>
+<suite id="s1-s7" name="Policy Duplicated Cpf Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\policy_duplicated_cpf_api.robot">
+<test id="s1-s7-t1" name="Validar CPF Duplicado Policy API" line="5">
+<kw name="Criar Sessao Policy API" owner="PolicyApi">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.434024" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>backend</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-05-28T15:38:48.433855" elapsed="0.000335"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:48.433543" elapsed="0.000782"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.435037" level="INFO">${cpf} = 10564481203</msg>
+<var>${cpf}</var>
+<arg>str(random.randint(10000000000, 99999999999))</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.434554" elapsed="0.000519"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.435777" level="INFO">${body} = {'name': 'Pedro QA Duplicado', 'cpf': '10564481203'}</msg>
+<var>${body}</var>
+<arg>name=Pedro QA Duplicado</arg>
+<arg>cpf=${cpf}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.435337" elapsed="0.000476"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.440199" level="INFO">POST Request : url=http://localhost:3000/policy 
+ path_url=/policy 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '52', 'Content-Type': 'application/json'} 
+ body=b'{"name": "Pedro QA Duplicado", "cpf": "10564481203"}' 
+ </msg>
+<msg time="2026-05-28T15:38:48.440318" level="INFO">POST Response : url=http://localhost:3000/policy 
+ status=400, reason=Bad Request 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '94', 'ETag': 'W/"5e-0mOhbMplnmVubdpmmVYf/VyXJtI"', 'Date': 'Thu, 28 May 2026 18:38:48 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"error":"REQUIRED_FIELDS","message":"Preencha todos os campos obrigatórios do registro SRO"} 
+ </msg>
+<msg time="2026-05-28T15:38:48.440476" level="FAIL">Url: http://localhost:3000/policy Expected status: 400 != 201</msg>
+<var>${response_1}</var>
+<arg>backend</arg>
+<arg>/policy</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=201</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2026-05-28T15:38:48.436035" elapsed="0.021221">Url: http://localhost:3000/policy Expected status: 400 != 201</status>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${response_1.json()["status"]}</arg>
+<arg>APOLICE_CRIADA</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.457584" elapsed="0.000038"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<var>${response_2}</var>
+<arg>backend</arg>
+<arg>/policy</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=409</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.457927" elapsed="0.000042"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${response_2.json()["error"]}</arg>
+<arg>DUPLICATED_CPF</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.458754" elapsed="0.000052"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${response_2.json()["message"]}</arg>
+<arg>CPF já cadastrado</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.459096" elapsed="0.000038"/>
+</kw>
+<status status="FAIL" start="2026-05-28T15:38:48.432484" elapsed="0.026969">Url: http://localhost:3000/policy Expected status: 400 != 201</status>
+</test>
+<status status="FAIL" start="2026-05-28T15:38:48.427049" elapsed="0.033325"/>
+</suite>
+<suite id="s1-s8" name="Policy Invalid Cpf Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\policy_invalid_cpf_api.robot">
+<test id="s1-s8-t1" name="Validar CPF Invalido API" line="5">
+<kw name="Criar Sessao Policy API" owner="PolicyApi">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.466154" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>backend</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-05-28T15:38:48.465906" elapsed="0.000490"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:48.465533" elapsed="0.000953"/>
+</kw>
+<kw name="Emitir Policy CPF Invalido" owner="PolicyApi">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.467456" level="INFO">${body} = {'name': 'Pedro QA', 'cpf': '123'}</msg>
+<var>${body}</var>
+<arg>name=Pedro QA</arg>
+<arg>cpf=123</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.467076" elapsed="0.000420"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.471349" level="INFO">POST Request : url=http://localhost:3000/policy 
+ path_url=/policy 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '34', 'Content-Type': 'application/json'} 
+ body=b'{"name": "Pedro QA", "cpf": "123"}' 
+ </msg>
+<msg time="2026-05-28T15:38:48.471435" level="INFO">POST Response : url=http://localhost:3000/policy 
+ status=400, reason=Bad Request 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '94', 'ETag': 'W/"5e-0mOhbMplnmVubdpmmVYf/VyXJtI"', 'Date': 'Thu, 28 May 2026 18:38:48 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"error":"REQUIRED_FIELDS","message":"Preencha todos os campos obrigatórios do registro SRO"} 
+ </msg>
+<msg time="2026-05-28T15:38:48.471586" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/policy</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.467623" elapsed="0.003995"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.472546" level="INFO">${json} = {'error': 'REQUIRED_FIELDS', 'message': 'Preencha todos os campos obrigatórios do registro SRO'}</msg>
+<var>${json}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.471775" elapsed="0.000811"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.473348" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>400</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.472762" elapsed="0.000657"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.473916" level="FAIL">REQUIRED_FIELDS != INVALID_CPF</msg>
+<arg>${json}[error]</arg>
+<arg>INVALID_CPF</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="FAIL" start="2026-05-28T15:38:48.473551" elapsed="0.000449">REQUIRED_FIELDS != INVALID_CPF</status>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[message]</arg>
+<arg>CPF inválido</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="NOT RUN" start="2026-05-28T15:38:48.474129" elapsed="0.000026"/>
+</kw>
+<status status="FAIL" start="2026-05-28T15:38:48.466803" elapsed="0.007475">REQUIRED_FIELDS != INVALID_CPF</status>
+</kw>
+<status status="FAIL" start="2026-05-28T15:38:48.464786" elapsed="0.010688">REQUIRED_FIELDS != INVALID_CPF</status>
+</test>
+<status status="FAIL" start="2026-05-28T15:38:48.461008" elapsed="0.015931"/>
+</suite>
+<suite id="s1-s9" name="Policy Required Fields Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\policy_required_fields_api.robot">
+<test id="s1-s9-t1" name="Validar Campos Obrigatorios API" line="5">
+<kw name="Criar Sessao Policy API" owner="PolicyApi">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.482347" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>backend</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-05-28T15:38:48.482173" elapsed="0.000341"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:38:48.481888" elapsed="0.000734"/>
+</kw>
+<kw name="Emitir Policy Sem Campos" owner="PolicyApi">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.483626" level="INFO">${body} = {}</msg>
+<var>${body}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.483282" elapsed="0.000382"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2026-05-28T15:38:48.486672" level="INFO">POST Request : url=http://localhost:3000/policy 
+ path_url=/policy 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '2', 'Content-Type': 'application/json'} 
+ body=b'{}' 
+ </msg>
+<msg time="2026-05-28T15:38:48.486787" level="INFO">POST Response : url=http://localhost:3000/policy 
+ status=400, reason=Bad Request 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '94', 'ETag': 'W/"5e-0mOhbMplnmVubdpmmVYf/VyXJtI"', 'Date': 'Thu, 28 May 2026 18:38:48 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"error":"REQUIRED_FIELDS","message":"Preencha todos os campos obrigatórios do registro SRO"} 
+ </msg>
+<msg time="2026-05-28T15:38:48.486946" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<var>${response}</var>
+<arg>backend</arg>
+<arg>/policy</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.483783" elapsed="0.003195"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.487866" level="INFO">${json} = {'error': 'REQUIRED_FIELDS', 'message': 'Preencha todos os campos obrigatórios do registro SRO'}</msg>
+<var>${json}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.487140" elapsed="0.000761"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.488745" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>400</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.488042" elapsed="0.000786"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${json}[error]</arg>
+<arg>REQUIRED_FIELDS</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-05-28T15:38:48.488974" elapsed="0.000377"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<msg time="2026-05-28T15:38:48.489821" level="FAIL">Preencha todos os campos obrigatórios do registro SRO != Preencha os campos obrigatórios</msg>
+<arg>${json}[message]</arg>
+<arg>Preencha os campos obrigatórios</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="FAIL" start="2026-05-28T15:38:48.489471" elapsed="0.000432">Preencha todos os campos obrigatórios do registro SRO != Preencha os campos obrigatórios</status>
+</kw>
+<status status="FAIL" start="2026-05-28T15:38:48.482949" elapsed="0.007075">Preencha todos os campos obrigatórios do registro SRO != Preencha os campos obrigatórios</status>
+</kw>
+<status status="FAIL" start="2026-05-28T15:38:48.481366" elapsed="0.008973">Preencha todos os campos obrigatórios do registro SRO != Preencha os campos obrigatórios</status>
+</test>
+<status status="FAIL" start="2026-05-28T15:38:48.477592" elapsed="0.014394"/>
+</suite>
+<status status="FAIL" start="2026-05-28T15:38:45.621952" elapsed="2.871485"/>
+</suite>
+<statistics>
+<total>
+<stat pass="3" fail="6" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Api" id="s1" pass="3" fail="6" skip="0">Api</stat>
+<stat name="Client Api" id="s1-s1" pass="1" fail="0" skip="0">Api.Client Api</stat>
+<stat name="Contract Policy Api" id="s1-s2" pass="0" fail="1" skip="0">Api.Contract Policy Api</stat>
+<stat name="Login Api" id="s1-s3" pass="0" fail="1" skip="0">Api.Login Api</stat>
+<stat name="Login Api Negative" id="s1-s4" pass="1" fail="0" skip="0">Api.Login Api Negative</stat>
+<stat name="Login Multi Usuario Api" id="s1-s5" pass="1" fail="0" skip="0">Api.Login Multi Usuario Api</stat>
+<stat name="Policy Api" id="s1-s6" pass="0" fail="1" skip="0">Api.Policy Api</stat>
+<stat name="Policy Duplicated Cpf Api" id="s1-s7" pass="0" fail="1" skip="0">Api.Policy Duplicated Cpf Api</stat>
+<stat name="Policy Invalid Cpf Api" id="s1-s8" pass="0" fail="1" skip="0">Api.Policy Invalid Cpf Api</stat>
+<stat name="Policy Required Fields Api" id="s1-s9" pass="0" fail="1" skip="0">Api.Policy Required Fields Api</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

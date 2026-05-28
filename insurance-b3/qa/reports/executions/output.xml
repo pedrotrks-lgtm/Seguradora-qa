@@ -1,0 +1,1009 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.14.5 on win32)" generated="2026-05-18T15:30:44.901200" rpa="false" schemaversion="5">
+<suite id="s1" name="E2E" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\e2e">
+<suite id="s1-s1" name="Access Policy Without Login" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\e2e\access_policy_without_login.robot">
+<test id="s1-s1-t1" name="Acessar Policy Sem Login" line="5">
+<kw name="Abrir Policy Diretamente" owner="keywords">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:30:45.637520" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5173/policy'.</msg>
+<arg>http://localhost:5173/policy</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-18T15:30:45.637257" elapsed="1.799701"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:45.636271" elapsed="1.800906"/>
+</kw>
+<kw name="Validar Retorno Login" owner="keywords">
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Seguradora B3</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2026-05-18T15:30:47.438456" elapsed="0.068673"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:47.437854" elapsed="0.069498"/>
+</kw>
+<kw name="Fechar Navegador" owner="keywords">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-18T15:30:47.510420" elapsed="2.232858"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:47.508889" elapsed="2.234769"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:45.635302" elapsed="4.109251"/>
+</test>
+<status status="PASS" start="2026-05-18T15:30:44.966131" elapsed="4.780776"/>
+</suite>
+<suite id="s1-s2" name="Access Without Login" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\e2e\access_without_login.robot">
+<test id="s1-s2-t1" name="Acessar Dashboard Sem Login" line="5">
+<kw name="Abrir Dashboard Diretamente" owner="keywords">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:30:49.790597" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5173/dashboard'.</msg>
+<arg>http://localhost:5173/dashboard</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-18T15:30:49.790390" elapsed="0.942154"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:49.790024" elapsed="0.942741"/>
+</kw>
+<kw name="Validar Retorno Login" owner="keywords">
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Seguradora B3</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2026-05-18T15:30:50.734571" elapsed="0.418474"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:50.733438" elapsed="0.420006"/>
+</kw>
+<kw name="Fechar Navegador" owner="keywords">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-18T15:30:51.155551" elapsed="2.191185"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:51.154515" elapsed="2.192608"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:49.789194" elapsed="3.558847"/>
+</test>
+<status status="PASS" start="2026-05-18T15:30:49.750087" elapsed="3.599733"/>
+</suite>
+<suite id="s1-s3" name="Login" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\e2e\login.robot">
+<test id="s1-s3-t1" name="Login Com Sucesso" line="5">
+<kw name="Abrir Navegador" owner="keywords">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-18T15:30:53.369778" level="INFO">${options} = &lt;selenium.webdriver.chrome.options.Options object at 0x000001A7E97EAC10&gt;</msg>
+<var>${options}</var>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys, selenium.webdriver</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-18T15:30:53.368453" elapsed="0.001432"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-18T15:30:53.371630" level="INFO">${prefs} = {'credentials_enable_service': False, 'profile.password_manager_enabled': False}</msg>
+<var>${prefs}</var>
+<arg>credentials_enable_service=${False}</arg>
+<arg>profile.password_manager_enabled=${False}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-18T15:30:53.370284" elapsed="0.001438"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_experimental_option</arg>
+<arg>prefs</arg>
+<arg>${prefs}</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:53.372010" elapsed="0.000699"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-notifications</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:53.372983" elapsed="0.000591"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-infobars</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:53.373843" elapsed="0.000678"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--guest</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:53.374850" elapsed="0.000628"/>
+</kw>
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:30:53.376241" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5173'.</msg>
+<arg>http://localhost:5173</arg>
+<arg>chrome</arg>
+<arg>options=${options}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-18T15:30:53.375792" elapsed="1.144447"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-18T15:30:54.520519" elapsed="0.042691"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:53.367797" elapsed="1.195564"/>
+</kw>
+<kw name="Carregar Usuario Admin" owner="keywords">
+<kw name="Load Json From File" owner="JSONLibrary">
+<msg time="2026-05-18T15:30:54.564533" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:30:54.564946" level="FAIL">OSError</msg>
+<var>${json}</var>
+<arg>insurance-b3/qa/fixtures/users.json</arg>
+<doc>Load JSON from file.</doc>
+<status status="FAIL" start="2026-05-18T15:30:54.564223" elapsed="0.049616">OSError</status>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${email}</var>
+<arg>${json}</arg>
+<arg>$.admin.email</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:30:54.614118" elapsed="0.000049"/>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${password}</var>
+<arg>${json}</arg>
+<arg>$.admin.password</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:30:54.614322" elapsed="0.000047"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${EMAIL}</arg>
+<arg>${email}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:30:54.614519" elapsed="0.000037"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${PASSWORD}</arg>
+<arg>${password}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:30:54.614691" elapsed="0.000040"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:30:54.563811" elapsed="0.051143">OSError</status>
+</kw>
+<kw name="Realizar Login" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:30:54.615475" elapsed="0.000056"/>
+</kw>
+<kw name="Validar Dashboard" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:30:54.615840" elapsed="0.000054"/>
+</kw>
+<kw name="Fechar Navegador" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:30:54.616315" elapsed="0.000056"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:30:53.366547" elapsed="1.250159">OSError</status>
+</test>
+<status status="FAIL" start="2026-05-18T15:30:53.352554" elapsed="1.264761"/>
+</suite>
+<suite id="s1-s4" name="Login Negative" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\e2e\login_negative.robot">
+<test id="s1-s4-t1" name="Login Com Senha Invalida" line="5">
+<kw name="Abrir Navegador" owner="keywords">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-18T15:30:54.628005" level="INFO">${options} = &lt;selenium.webdriver.chrome.options.Options object at 0x000001A7EA2A9CD0&gt;</msg>
+<var>${options}</var>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys, selenium.webdriver</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-18T15:30:54.627431" elapsed="0.000622"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-18T15:30:54.628937" level="INFO">${prefs} = {'credentials_enable_service': False, 'profile.password_manager_enabled': False}</msg>
+<var>${prefs}</var>
+<arg>credentials_enable_service=${False}</arg>
+<arg>profile.password_manager_enabled=${False}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-18T15:30:54.628340" elapsed="0.000642"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_experimental_option</arg>
+<arg>prefs</arg>
+<arg>${prefs}</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:54.629161" elapsed="0.000385"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-notifications</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:54.629699" elapsed="0.000308"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-infobars</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:54.630147" elapsed="0.000315"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--guest</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:54.630646" elapsed="0.000316"/>
+</kw>
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:30:54.631409" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5173'.</msg>
+<arg>http://localhost:5173</arg>
+<arg>chrome</arg>
+<arg>options=${options}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-18T15:30:54.631142" elapsed="1.110457"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-18T15:30:55.741847" elapsed="0.038894"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:54.627010" elapsed="1.153859"/>
+</kw>
+<kw name="Carregar Usuario Invalido" owner="keywords">
+<kw name="Load Json From File" owner="JSONLibrary">
+<msg time="2026-05-18T15:30:55.782104" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:30:55.782630" level="FAIL">OSError</msg>
+<var>${json}</var>
+<arg>insurance-b3/qa/fixtures/users.json</arg>
+<doc>Load JSON from file.</doc>
+<status status="FAIL" start="2026-05-18T15:30:55.781708" elapsed="0.001533">OSError</status>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${email}</var>
+<arg>${json}</arg>
+<arg>$.invalid.email</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:30:55.783450" elapsed="0.000042"/>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${password}</var>
+<arg>${json}</arg>
+<arg>$.invalid.password</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:30:55.783618" elapsed="0.000034"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${EMAIL}</arg>
+<arg>${email}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:30:55.783787" elapsed="0.000035"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${PASSWORD}</arg>
+<arg>${password}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:30:55.783945" elapsed="0.000033"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:30:55.781260" elapsed="0.002859">OSError</status>
+</kw>
+<kw name="Realizar Login" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:30:55.784464" elapsed="0.000063"/>
+</kw>
+<kw name="Validar Erro Login" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:30:55.784843" elapsed="0.000059"/>
+</kw>
+<kw name="Fechar Navegador" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:30:55.785133" elapsed="0.000041"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:30:54.626138" elapsed="1.159314">OSError</status>
+</test>
+<status status="FAIL" start="2026-05-18T15:30:54.618139" elapsed="1.171731"/>
+</suite>
+<suite id="s1-s5" name="Login Required Fields" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\e2e\login_required_fields.robot">
+<test id="s1-s5-t1" name="Login Sem Preencher Campos" line="5">
+<kw name="Abrir Navegador" owner="keywords">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-18T15:30:55.800760" level="INFO">${options} = &lt;selenium.webdriver.chrome.options.Options object at 0x000001A7EA2AB100&gt;</msg>
+<var>${options}</var>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys, selenium.webdriver</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-18T15:30:55.800096" elapsed="0.000751"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-18T15:30:55.801533" level="INFO">${prefs} = {'credentials_enable_service': False, 'profile.password_manager_enabled': False}</msg>
+<var>${prefs}</var>
+<arg>credentials_enable_service=${False}</arg>
+<arg>profile.password_manager_enabled=${False}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-18T15:30:55.801038" elapsed="0.000537"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_experimental_option</arg>
+<arg>prefs</arg>
+<arg>${prefs}</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:55.801726" elapsed="0.000438"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-notifications</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:55.802381" elapsed="0.000392"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-infobars</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:55.802949" elapsed="0.000596"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--guest</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:55.803819" elapsed="0.000379"/>
+</kw>
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:30:55.804657" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5173'.</msg>
+<arg>http://localhost:5173</arg>
+<arg>chrome</arg>
+<arg>options=${options}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-18T15:30:55.804411" elapsed="0.952762"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-18T15:30:56.757506" elapsed="0.244092"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:55.799698" elapsed="1.202085"/>
+</kw>
+<kw name="Clicar Login Sem Preencher" owner="keywords">
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:30:57.011043" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>${BTN_LOGIN}</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-18T15:30:57.010434" elapsed="0.123801"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:57.009936" elapsed="0.124489"/>
+</kw>
+<kw name="Validar Campos Obrigatorios" owner="keywords">
+<kw name="Location Should Be" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:30:57.148667" level="INFO">Current location is 'http://localhost:5173/'.</msg>
+<arg>http://localhost:5173/</arg>
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<status status="PASS" start="2026-05-18T15:30:57.135430" elapsed="0.013362"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:57.134922" elapsed="0.014011"/>
+</kw>
+<kw name="Fechar Navegador" owner="keywords">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-18T15:30:57.149826" elapsed="2.243828"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:57.149304" elapsed="2.244739"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:55.799042" elapsed="3.595805"/>
+</test>
+<status status="PASS" start="2026-05-18T15:30:55.791315" elapsed="3.605185"/>
+</suite>
+<suite id="s1-s6" name="Logout" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\e2e\logout.robot">
+<test id="s1-s6-t1" name="Logout Com Sucesso" line="5">
+<kw name="Abrir Navegador" owner="keywords">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-18T15:30:59.415071" level="INFO">${options} = &lt;selenium.webdriver.chrome.options.Options object at 0x000001A7EA28D370&gt;</msg>
+<var>${options}</var>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys, selenium.webdriver</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-18T15:30:59.413920" elapsed="0.001250"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-18T15:30:59.416518" level="INFO">${prefs} = {'credentials_enable_service': False, 'profile.password_manager_enabled': False}</msg>
+<var>${prefs}</var>
+<arg>credentials_enable_service=${False}</arg>
+<arg>profile.password_manager_enabled=${False}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-18T15:30:59.415507" elapsed="0.001118"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_experimental_option</arg>
+<arg>prefs</arg>
+<arg>${prefs}</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:59.417127" elapsed="0.000947"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-notifications</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:59.418414" elapsed="0.000731"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-infobars</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:59.419459" elapsed="0.387610"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--guest</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:30:59.807372" elapsed="0.000572"/>
+</kw>
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:30:59.808656" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5173'.</msg>
+<arg>http://localhost:5173</arg>
+<arg>chrome</arg>
+<arg>options=${options}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-18T15:30:59.808238" elapsed="4.106967"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-18T15:31:03.915548" elapsed="0.033104"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:30:59.413052" elapsed="4.535756"/>
+</kw>
+<kw name="Carregar Usuario Admin" owner="keywords">
+<kw name="Load Json From File" owner="JSONLibrary">
+<msg time="2026-05-18T15:31:03.951521" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:31:03.952225" level="FAIL">OSError</msg>
+<var>${json}</var>
+<arg>insurance-b3/qa/fixtures/users.json</arg>
+<doc>Load JSON from file.</doc>
+<status status="FAIL" start="2026-05-18T15:31:03.950655" elapsed="0.002093">OSError</status>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${email}</var>
+<arg>${json}</arg>
+<arg>$.admin.email</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:03.952986" elapsed="0.000043"/>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${password}</var>
+<arg>${json}</arg>
+<arg>$.admin.password</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:03.953162" elapsed="0.000035"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${EMAIL}</arg>
+<arg>${email}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:03.953330" elapsed="0.000035"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${PASSWORD}</arg>
+<arg>${password}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:03.953490" elapsed="0.000033"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:31:03.949502" elapsed="0.004156">OSError</status>
+</kw>
+<kw name="Realizar Login" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:03.954100" elapsed="0.000063"/>
+</kw>
+<kw name="Validar Dashboard" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:03.954535" elapsed="0.000056"/>
+</kw>
+<kw name="Realizar Logout" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:03.954905" elapsed="0.000058"/>
+</kw>
+<kw name="Validar Retorno Login" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:03.955517" elapsed="0.000065"/>
+</kw>
+<kw name="Fechar Navegador" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:03.955939" elapsed="0.000060"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:30:59.411476" elapsed="4.544883">OSError</status>
+</test>
+<status status="FAIL" start="2026-05-18T15:30:59.398963" elapsed="4.558367"/>
+</suite>
+<suite id="s1-s7" name="Policy Invalid Cpf" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\e2e\policy_invalid_cpf.robot">
+<test id="s1-s7-t1" name="Validar CPF Invalido" line="5">
+<kw name="Abrir Navegador" owner="keywords">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-18T15:31:03.966890" level="INFO">${options} = &lt;selenium.webdriver.chrome.options.Options object at 0x000001A7EA23FAC0&gt;</msg>
+<var>${options}</var>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys, selenium.webdriver</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-18T15:31:03.966266" elapsed="0.000712"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-18T15:31:03.967759" level="INFO">${prefs} = {'credentials_enable_service': False, 'profile.password_manager_enabled': False}</msg>
+<var>${prefs}</var>
+<arg>credentials_enable_service=${False}</arg>
+<arg>profile.password_manager_enabled=${False}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-18T15:31:03.967161" elapsed="0.000648"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_experimental_option</arg>
+<arg>prefs</arg>
+<arg>${prefs}</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:03.967989" elapsed="0.000410"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-notifications</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:03.968564" elapsed="0.000399"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-infobars</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:03.969135" elapsed="0.000314"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--guest</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:03.969659" elapsed="0.000422"/>
+</kw>
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:31:03.970575" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5173'.</msg>
+<arg>http://localhost:5173</arg>
+<arg>chrome</arg>
+<arg>options=${options}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-18T15:31:03.970277" elapsed="5.406435"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-18T15:31:09.377284" elapsed="0.044560"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:31:03.964679" elapsed="5.457433"/>
+</kw>
+<kw name="Carregar Usuario Admin" owner="keywords">
+<kw name="Load Json From File" owner="JSONLibrary">
+<msg time="2026-05-18T15:31:09.423225" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:31:09.429531" level="FAIL">OSError</msg>
+<var>${json}</var>
+<arg>insurance-b3/qa/fixtures/users.json</arg>
+<doc>Load JSON from file.</doc>
+<status status="FAIL" start="2026-05-18T15:31:09.423008" elapsed="0.007214">OSError</status>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${email}</var>
+<arg>${json}</arg>
+<arg>$.admin.email</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:09.430496" elapsed="0.000077"/>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${password}</var>
+<arg>${json}</arg>
+<arg>$.admin.password</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:09.430721" elapsed="0.000038"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${EMAIL}</arg>
+<arg>${email}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:09.430919" elapsed="0.000039"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${PASSWORD}</arg>
+<arg>${password}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:09.431118" elapsed="0.000041"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:31:09.422628" elapsed="0.008689">OSError</status>
+</kw>
+<kw name="Realizar Login" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:09.431779" elapsed="0.000056"/>
+</kw>
+<kw name="Acessar Tela Policy" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:09.432540" elapsed="0.000064"/>
+</kw>
+<kw name="Preencher CPF Invalido" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:09.432940" elapsed="0.000055"/>
+</kw>
+<kw name="Emitir Policy" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:09.433283" elapsed="0.000070"/>
+</kw>
+<kw name="Validar CPF Invalido" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:09.433616" elapsed="0.000051"/>
+</kw>
+<kw name="Fechar Navegador" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:09.433918" elapsed="0.000047"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:31:03.962577" elapsed="5.472593">OSError</status>
+</test>
+<status status="FAIL" start="2026-05-18T15:31:03.958195" elapsed="5.478269"/>
+</suite>
+<suite id="s1-s8" name="Policy Required Fields" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\e2e\policy_required_fields.robot">
+<test id="s1-s8-t1" name="Validar Campos Obrigatorios Policy" line="5">
+<kw name="Abrir Navegador" owner="keywords">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-18T15:31:09.447350" level="INFO">${options} = &lt;selenium.webdriver.chrome.options.Options object at 0x000001A7EA2E9590&gt;</msg>
+<var>${options}</var>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys, selenium.webdriver</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-18T15:31:09.446755" elapsed="0.000641"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-18T15:31:09.450102" level="INFO">${prefs} = {'credentials_enable_service': False, 'profile.password_manager_enabled': False}</msg>
+<var>${prefs}</var>
+<arg>credentials_enable_service=${False}</arg>
+<arg>profile.password_manager_enabled=${False}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-18T15:31:09.447556" elapsed="0.002644"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_experimental_option</arg>
+<arg>prefs</arg>
+<arg>${prefs}</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:09.450457" elapsed="0.000568"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-notifications</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:09.451207" elapsed="0.000373"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-infobars</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:09.451729" elapsed="0.000422"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--guest</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:09.452332" elapsed="0.000365"/>
+</kw>
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:31:09.453485" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5173'.</msg>
+<arg>http://localhost:5173</arg>
+<arg>chrome</arg>
+<arg>options=${options}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-18T15:31:09.453153" elapsed="1.916094"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-18T15:31:11.369535" elapsed="0.044975"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:31:09.446370" elapsed="1.968323"/>
+</kw>
+<kw name="Carregar Usuario Admin" owner="keywords">
+<kw name="Load Json From File" owner="JSONLibrary">
+<msg time="2026-05-18T15:31:11.415704" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:31:11.416079" level="FAIL">OSError</msg>
+<var>${json}</var>
+<arg>insurance-b3/qa/fixtures/users.json</arg>
+<doc>Load JSON from file.</doc>
+<status status="FAIL" start="2026-05-18T15:31:11.415488" elapsed="0.001122">OSError</status>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${email}</var>
+<arg>${json}</arg>
+<arg>$.admin.email</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:11.416917" elapsed="0.000079"/>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${password}</var>
+<arg>${json}</arg>
+<arg>$.admin.password</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:11.417177" elapsed="0.000048"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${EMAIL}</arg>
+<arg>${email}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:11.417468" elapsed="0.000080"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${PASSWORD}</arg>
+<arg>${password}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:11.417690" elapsed="0.000036"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:31:11.415117" elapsed="0.002781">OSError</status>
+</kw>
+<kw name="Realizar Login" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:11.418321" elapsed="0.000060"/>
+</kw>
+<kw name="Acessar Tela Policy" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:11.418873" elapsed="0.000071"/>
+</kw>
+<kw name="Emitir Policy Sem Preencher" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:11.419386" elapsed="0.000066"/>
+</kw>
+<kw name="Validar Erro Campos Policy" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:11.419795" elapsed="0.000059"/>
+</kw>
+<kw name="Fechar Navegador" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:11.420447" elapsed="0.000069"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:31:09.445123" elapsed="1.975739">OSError</status>
+</test>
+<status status="FAIL" start="2026-05-18T15:31:09.437426" elapsed="1.984995"/>
+</suite>
+<suite id="s1-s9" name="Policy Success" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\e2e\policy_success.robot">
+<test id="s1-s9-t1" name="Emitir Policy Com Sucesso" line="5">
+<kw name="Abrir Navegador" owner="keywords">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-18T15:31:11.442782" level="INFO">${options} = &lt;selenium.webdriver.chrome.options.Options object at 0x000001A7EA22B250&gt;</msg>
+<var>${options}</var>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys, selenium.webdriver</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-18T15:31:11.442230" elapsed="0.000602"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-18T15:31:11.443580" level="INFO">${prefs} = {'credentials_enable_service': False, 'profile.password_manager_enabled': False}</msg>
+<var>${prefs}</var>
+<arg>credentials_enable_service=${False}</arg>
+<arg>profile.password_manager_enabled=${False}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-18T15:31:11.443020" elapsed="0.000605"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_experimental_option</arg>
+<arg>prefs</arg>
+<arg>${prefs}</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:11.443784" elapsed="0.000383"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-notifications</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:11.444320" elapsed="0.000308"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-infobars</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:11.444760" elapsed="0.000307"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--guest</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:11.445202" elapsed="0.001381"/>
+</kw>
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:31:11.447650" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5173'.</msg>
+<arg>http://localhost:5173</arg>
+<arg>chrome</arg>
+<arg>options=${options}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-18T15:31:11.446934" elapsed="2.073599"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-18T15:31:13.520788" elapsed="0.179151"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:31:11.441804" elapsed="2.258277"/>
+</kw>
+<kw name="Carregar Usuario Admin" owner="keywords">
+<kw name="Load Json From File" owner="JSONLibrary">
+<msg time="2026-05-18T15:31:13.715120" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:31:13.728414" level="FAIL">OSError</msg>
+<var>${json}</var>
+<arg>insurance-b3/qa/fixtures/users.json</arg>
+<doc>Load JSON from file.</doc>
+<status status="FAIL" start="2026-05-18T15:31:13.714818" elapsed="0.014070">OSError</status>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${email}</var>
+<arg>${json}</arg>
+<arg>$.admin.email</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:13.729133" elapsed="0.000047"/>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${password}</var>
+<arg>${json}</arg>
+<arg>$.admin.password</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:13.729322" elapsed="0.000033"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${EMAIL}</arg>
+<arg>${email}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:13.729484" elapsed="0.000033"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${PASSWORD}</arg>
+<arg>${password}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:13.729651" elapsed="0.000035"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:31:13.713177" elapsed="0.016675">OSError</status>
+</kw>
+<kw name="Realizar Login" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:13.730477" elapsed="0.000064"/>
+</kw>
+<kw name="Acessar Tela Policy" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:13.737273" elapsed="0.000082"/>
+</kw>
+<kw name="Preencher Dados Policy" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:13.739479" elapsed="0.000065"/>
+</kw>
+<kw name="Emitir Policy" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:13.740136" elapsed="0.000062"/>
+</kw>
+<kw name="Validar Policy Emitida" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:13.740796" elapsed="0.000057"/>
+</kw>
+<kw name="Fechar Navegador" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:13.741580" elapsed="0.000067"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:31:11.438673" elapsed="2.303601">OSError</status>
+</test>
+<status status="FAIL" start="2026-05-18T15:31:11.423993" elapsed="2.319524"/>
+</suite>
+<suite id="s1-s10" name="Session Persistence" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\e2e\session_persistence.robot">
+<test id="s1-s10-t1" name="Persistir Sessao Apos Refresh" line="5">
+<kw name="Abrir Navegador" owner="keywords">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-05-18T15:31:13.800773" level="INFO">${options} = &lt;selenium.webdriver.chrome.options.Options object at 0x000001A7EA2AEA50&gt;</msg>
+<var>${options}</var>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys, selenium.webdriver</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-05-18T15:31:13.800218" elapsed="0.000605"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-05-18T15:31:13.801630" level="INFO">${prefs} = {'credentials_enable_service': False, 'profile.password_manager_enabled': False}</msg>
+<var>${prefs}</var>
+<arg>credentials_enable_service=${False}</arg>
+<arg>profile.password_manager_enabled=${False}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-05-18T15:31:13.801019" elapsed="0.000664"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_experimental_option</arg>
+<arg>prefs</arg>
+<arg>${prefs}</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:13.801881" elapsed="0.000446"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-notifications</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:13.802508" elapsed="0.000404"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-infobars</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:13.803076" elapsed="0.000366"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${options}</arg>
+<arg>add_argument</arg>
+<arg>--guest</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2026-05-18T15:31:13.803603" elapsed="0.000342"/>
+</kw>
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-18T15:31:13.804547" level="INFO">Opening browser 'chrome' to base url 'http://localhost:5173'.</msg>
+<arg>http://localhost:5173</arg>
+<arg>chrome</arg>
+<arg>options=${options}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-18T15:31:13.804135" elapsed="5.373473"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-18T15:31:19.177932" elapsed="0.161702"/>
+</kw>
+<status status="PASS" start="2026-05-18T15:31:13.799886" elapsed="5.539901"/>
+</kw>
+<kw name="Carregar Usuario Admin" owner="keywords">
+<kw name="Load Json From File" owner="JSONLibrary">
+<msg time="2026-05-18T15:31:19.340911" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:31:19.341275" level="FAIL">OSError</msg>
+<var>${json}</var>
+<arg>insurance-b3/qa/fixtures/users.json</arg>
+<doc>Load JSON from file.</doc>
+<status status="FAIL" start="2026-05-18T15:31:19.340607" elapsed="0.001222">OSError</status>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${email}</var>
+<arg>${json}</arg>
+<arg>$.admin.email</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:19.342052" elapsed="0.000047"/>
+</kw>
+<kw name="Get Value From Json" owner="JSONLibrary">
+<var>${password}</var>
+<arg>${json}</arg>
+<arg>$.admin.password</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:19.342242" elapsed="0.000036"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${EMAIL}</arg>
+<arg>${email}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:19.342420" elapsed="0.000042"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<arg>${PASSWORD}</arg>
+<arg>${password}[0]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:19.342600" elapsed="0.000032"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:31:19.340222" elapsed="0.002570">OSError</status>
+</kw>
+<kw name="Realizar Login" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:19.343317" elapsed="0.000069"/>
+</kw>
+<kw name="Validar Dashboard" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:19.343645" elapsed="0.000049"/>
+</kw>
+<kw name="Reload Page" owner="SeleniumLibrary">
+<doc>Simulates user reloading page.</doc>
+<status status="NOT RUN" start="2026-05-18T15:31:19.343921" elapsed="0.000043"/>
+</kw>
+<kw name="Validar Dashboard" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:19.344247" elapsed="0.000048"/>
+</kw>
+<kw name="Fechar Navegador" owner="keywords">
+<status status="NOT RUN" start="2026-05-18T15:31:19.344510" elapsed="0.000045"/>
+</kw>
+<status status="FAIL" start="2026-05-18T15:31:13.799139" elapsed="5.545698">OSError</status>
+</test>
+<status status="FAIL" start="2026-05-18T15:31:13.783765" elapsed="5.561987"/>
+</suite>
+<status status="FAIL" start="2026-05-18T15:30:44.903515" elapsed="34.443273"/>
+</suite>
+<statistics>
+<total>
+<stat pass="3" fail="7" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="E2E" id="s1" pass="3" fail="7" skip="0">E2E</stat>
+<stat name="Access Policy Without Login" id="s1-s1" pass="1" fail="0" skip="0">E2E.Access Policy Without Login</stat>
+<stat name="Access Without Login" id="s1-s2" pass="1" fail="0" skip="0">E2E.Access Without Login</stat>
+<stat name="Login" id="s1-s3" pass="0" fail="1" skip="0">E2E.Login</stat>
+<stat name="Login Negative" id="s1-s4" pass="0" fail="1" skip="0">E2E.Login Negative</stat>
+<stat name="Login Required Fields" id="s1-s5" pass="1" fail="0" skip="0">E2E.Login Required Fields</stat>
+<stat name="Logout" id="s1-s6" pass="0" fail="1" skip="0">E2E.Logout</stat>
+<stat name="Policy Invalid Cpf" id="s1-s7" pass="0" fail="1" skip="0">E2E.Policy Invalid Cpf</stat>
+<stat name="Policy Required Fields" id="s1-s8" pass="0" fail="1" skip="0">E2E.Policy Required Fields</stat>
+<stat name="Policy Success" id="s1-s9" pass="0" fail="1" skip="0">E2E.Policy Success</stat>
+<stat name="Session Persistence" id="s1-s10" pass="0" fail="1" skip="0">E2E.Session Persistence</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2026-05-18T15:30:54.564533" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:30:55.782104" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:31:03.951521" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:31:09.423225" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:31:11.415704" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:31:13.715120" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+<msg time="2026-05-18T15:31:19.340911" level="ERROR">JSON file: insurance-b3/qa/fixtures/users.json not found</msg>
+</errors>
+</robot>

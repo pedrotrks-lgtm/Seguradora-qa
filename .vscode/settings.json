@@ -3,5 +3,8 @@
         "Postman"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.analysis.extraPaths": [
+        "c:/Users/pedsa/Documents/seguradoraB3/."
+    ]
 }

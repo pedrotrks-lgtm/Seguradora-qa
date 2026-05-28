@@ -8,9 +8,9 @@ Validar Login API
 
     ${response}=    Login API Com Sucesso
 
-    Should Be Equal
+    Should Be Equal As Numbers
     ...    ${response.status_code}
-    ...    ${200}
+    ...    200
 
     Should Be Equal
     ...    ${response.json()["user"]["name"]}
@@ -22,3 +22,7 @@ Validar Login API
 
     Should Not Be Empty
     ...    ${response.json()["token"]}
+
+    Should Contain
+    ...    ${response.json()["token"]}
+    ...    eyJ

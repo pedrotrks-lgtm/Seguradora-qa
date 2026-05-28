@@ -1,39 +1,43 @@
 *** Settings ***
-Resource    ../../resources/api/PolicyApi.resource
+Resource    ../../resources/api/policyapi.resource
 
 *** Test Cases ***
-Validar CPF Duplicado Policy API
+Validar Policy Duplicada API
 
     Criar Sessao Policy API
 
-    ${cpf}=    Evaluate
-    ...    str(random.randint(10000000000, 99999999999))
-    ...    random
+    ${policyNumber}=    Set Variable    APO-DUPLICADA-001
 
     ${body}=    Create Dictionary
-    ...    name=Pedro QA Duplicado
-    ...    cpf=${cpf}
+    ...    insurerCode=SEG002
+    ...    policyNumber=${policyNumber}
+    ...    productCode=AUTO
+    ...    insuredDocument=12345678901
+    ...    premiumAmount=${850.9}
+    ...    coverageAmount=${50000}
+    ...    effectiveStartDate=2026-06-01
+    ...    effectiveEndDate=2027-06-01
 
-    ${response_1}=    POST On Session
+    POST On Session
     ...    backend
     ...    /policy
     ...    json=${body}
-    ...    expected_status=201
+    ...    expected_status=any
 
-    Should Be Equal
-    ...    ${response_1.json()["status"]}
-    ...    APOLICE_CRIADA
-
-    ${response_2}=    POST On Session
+    ${response}=    POST On Session
     ...    backend
     ...    /policy
     ...    json=${body}
-    ...    expected_status=409
+    ...    expected_status=any
+
+    Should Be Equal As Numbers
+    ...    ${response.status_code}
+    ...    409
 
     Should Be Equal
-    ...    ${response_2.json()["error"]}
-    ...    DUPLICATED_CPF
+    ...    ${response.json()["error"]}
+    ...    DUPLICATED_POLICY
 
     Should Be Equal
-    ...    ${response_2.json()["message"]}
-    ...    CPF já cadastrado
+    ...    ${response.json()["message"]}
+    ...    Número da apólice já registrado

@@ -1,9 +1,9 @@
 *** Settings ***
-Resource    ../../resources/api/PolicyApi.resource
+Resource    ../../resources/api/policyapi.resource
 
 *** Test Cases ***
-Validar CPF Invalido API
+Validar Documento Invalido Policy API
 
     Criar Sessao Policy API
 
-    Emitir Policy CPF Invalido
+    Emitir Policy Documento Invalido

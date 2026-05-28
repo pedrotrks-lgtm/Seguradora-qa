@@ -13,18 +13,25 @@ Criar Sessao Policy API
 
 Emitir Policy Com Sucesso
 
-    ${cpf}=    Evaluate
-    ...    str(random.randint(10000000000, 99999999999))
+    ${policyNumber}=    Evaluate
+    ...    "APO-" + str(random.randint(100000, 999999))
     ...    random
 
     ${body}=    Create Dictionary
-    ...    name=Pedro QA
-    ...    cpf=${cpf}
+    ...    insurerCode=SEG002
+    ...    policyNumber=${policyNumber}
+    ...    productCode=AUTO
+    ...    insuredDocument=12345678901
+    ...    premiumAmount=${850.9}
+    ...    coverageAmount=${50000}
+    ...    effectiveStartDate=2026-06-01
+    ...    effectiveEndDate=2027-06-01
 
     ${response}=    POST On Session
     ...    backend
     ...    /policy
     ...    json=${body}
+    ...    expected_status=201
 
     ${json}=    Set Variable    ${response.json()}
 
@@ -34,26 +41,39 @@ Emitir Policy Com Sucesso
 
     Should Be Equal
     ...    ${json}[status]
-    ...    APOLICE_CRIADA
+    ...    REGISTERED
 
     Should Be Equal
     ...    ${json}[message]
-    ...    Apólice emitida com sucesso
+    ...    Apólice registrada com sucesso no ambiente SRO/B3
 
     Should Not Be Empty
     ...    ${json}[policyId]
 
+    Should Not Be Empty
+    ...    ${json}[registrationId]
+
     Policy Deve Existir No Mongo
-    ...    ${cpf}
-    ...    CREATED
+    ...    ${policyNumber}
+    ...    REGISTERED
 
     RETURN    ${response}
 
-Emitir Policy CPF Invalido
+Emitir Policy Documento Invalido
+
+    ${policyNumber}=    Evaluate
+    ...    "APO-" + str(random.randint(100000, 999999))
+    ...    random
 
     ${body}=    Create Dictionary
-    ...    name=Pedro QA
-    ...    cpf=123
+    ...    insurerCode=SEG002
+    ...    policyNumber=${policyNumber}
+    ...    productCode=AUTO
+    ...    insuredDocument=123
+    ...    premiumAmount=${850.9}
+    ...    coverageAmount=${50000}
+    ...    effectiveStartDate=2026-06-01
+    ...    effectiveEndDate=2027-06-01
 
     ${response}=    POST On Session
     ...    backend
@@ -69,11 +89,11 @@ Emitir Policy CPF Invalido
 
     Should Be Equal
     ...    ${json}[error]
-    ...    INVALID_CPF
+    ...    INVALID_DOCUMENT
 
     Should Be Equal
     ...    ${json}[message]
-    ...    CPF inválido
+    ...    CPF ou CNPJ inválido
 
 Emitir Policy Sem Campos
 
@@ -97,7 +117,7 @@ Emitir Policy Sem Campos
 
     Should Be Equal
     ...    ${json}[message]
-    ...    Preencha os campos obrigatórios
+    ...    Preencha todos os campos obrigatórios do registro SRO
 
 Validar Contrato Policy Response
     [Arguments]    ${response}
@@ -110,6 +130,10 @@ Validar Contrato Policy Response
 
     Dictionary Should Contain Key
     ...    ${json}
+    ...    registrationId
+
+    Dictionary Should Contain Key
+    ...    ${json}
     ...    status
 
     Dictionary Should Contain Key
@@ -118,8 +142,8 @@ Validar Contrato Policy Response
 
     Should Be Equal
     ...    ${json}[status]
-    ...    APOLICE_CRIADA
+    ...    REGISTERED
 
     Should Be Equal
     ...    ${json}[message]
-    ...    Apólice emitida com sucesso
+    ...    Apólice registrada com sucesso no ambiente SRO/B3
