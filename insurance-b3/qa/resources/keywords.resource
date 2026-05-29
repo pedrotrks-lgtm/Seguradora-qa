@@ -112,7 +112,9 @@ Clicar Login Sem Preencher
 
 Validar Campos Obrigatorios
 
-    Location Should Be    http://localhost:5173/
+    Wait Until Page Contains
+    ...    Seguradora B3
+    ...    10s
 
 Validar Dashboard
 
@@ -141,12 +143,18 @@ Acessar Tela Policy
 
 Preencher Dados Policy
 
-    ${cpf}=    Evaluate
-    ...    str(random.randint(10000000000, 99999999999))
+    ${policyNumber}=    Evaluate
+    ...    "APO-" + str(random.randint(100000, 999999))
     ...    random
 
-    Input Text    ${INPUT_CLIENTE}    Pedro QA
-    Input Text    ${INPUT_CPF}        ${cpf}
+    Input Text    ${INPUT_INSURER_CODE}          SEG002
+    Input Text    ${INPUT_POLICY_NUMBER}         ${policyNumber}
+    Input Text    ${INPUT_PRODUCT_CODE}          AUTO
+    Input Text    ${INPUT_INSURED_DOCUMENT}      12345678901
+    Input Text    ${INPUT_PREMIUM_AMOUNT}        850.9
+    Input Text    ${INPUT_COVERAGE_AMOUNT}       50000
+    Input Text    ${INPUT_EFFECTIVE_START_DATE}  2026-06-01
+    Input Text    ${INPUT_EFFECTIVE_END_DATE}    2027-06-01
 
 Emitir Policy
 
@@ -154,7 +162,9 @@ Emitir Policy
 
 Validar Policy Emitida
 
-    Wait Until Page Contains    Apólice emitida com sucesso
+    Wait Until Page Contains
+    ...    Apólice registrada com sucesso no ambiente SRO/B3
+    ...    10s
 
 Emitir Policy Sem Preencher
 
@@ -162,16 +172,30 @@ Emitir Policy Sem Preencher
 
 Validar Erro Campos Policy
 
-    Wait Until Page Contains    Preencha os campos obrigatórios
+    Wait Until Page Contains
+    ...    Preencha todos os campos obrigatórios do registro SRO
+    ...    10s
 
-Preencher CPF Invalido
+Preencher Documento Invalido
 
-    Input Text    ${INPUT_CLIENTE}    Pedro QA
-    Input Text    ${INPUT_CPF}        123
+    ${policyNumber}=    Evaluate
+    ...    "APO-" + str(random.randint(100000, 999999))
+    ...    random
 
-Validar CPF Invalido
+    Input Text    ${INPUT_INSURER_CODE}            SEG002
+    Input Text    ${INPUT_POLICY_NUMBER}           ${policyNumber}
+    Input Text    ${INPUT_PRODUCT_CODE}            AUTO
+    Input Text    ${INPUT_INSURED_DOCUMENT}        123
+    Input Text    ${INPUT_PREMIUM_AMOUNT}          850.9
+    Input Text    ${INPUT_COVERAGE_AMOUNT}         50000
+    Input Text    ${INPUT_EFFECTIVE_START_DATE}    2026-06-01
+    Input Text    ${INPUT_EFFECTIVE_END_DATE}      2027-06-01
 
-    Wait Until Page Contains    CPF inválido
+Validar Documento Invalido
+
+    Wait Until Page Contains
+    ...    CPF ou CNPJ inválido
+    ...    10s
 
 Validar Redirecionamento Login
 
@@ -212,15 +236,21 @@ Preencher Dados Policy Com CPF Informado
     Input Text    ${INPUT_CPF}        ${cpf}
 
 Criar Policy Pela API
-    [Arguments]    ${cpf}
+    [Arguments]    ${policyNumber}
 
-    Log To Console    Criando policy pela API com CPF: ${cpf}
+    Log To Console    Criando policy pela API com número: ${policyNumber}
 
     Create Session    backend_duplicated    http://localhost:3000
 
     ${body}=    Create Dictionary
-    ...    name=Pedro QA
-    ...    cpf=${cpf}
+    ...    insurerCode=SEG002
+    ...    policyNumber=${policyNumber}
+    ...    productCode=AUTO
+    ...    insuredDocument=12345678901
+    ...    premiumAmount=${850.9}
+    ...    coverageAmount=${50000}
+    ...    effectiveStartDate=2026-06-01
+    ...    effectiveEndDate=2027-06-01
 
     ${response}=    POST On Session
     ...    backend_duplicated
@@ -250,3 +280,56 @@ Validar Policy Duplicada Pela API
     Should Be Equal
     ...    ${response.json()["message"]}
     ...    CPF já cadastrado
+
+Preencher Dados Policy Com Numero Informado
+    [Arguments]    ${policyNumber}
+
+    Clear Element Text    ${INPUT_INSURER_CODE}
+    Clear Element Text    ${INPUT_POLICY_NUMBER}
+    Clear Element Text    ${INPUT_PRODUCT_CODE}
+    Clear Element Text    ${INPUT_INSURED_DOCUMENT}
+    Clear Element Text    ${INPUT_PREMIUM_AMOUNT}
+    Clear Element Text    ${INPUT_COVERAGE_AMOUNT}
+    Clear Element Text    ${INPUT_EFFECTIVE_START_DATE}
+    Clear Element Text    ${INPUT_EFFECTIVE_END_DATE}
+
+    Input Text    ${INPUT_INSURER_CODE}            SEG002
+    Input Text    ${INPUT_POLICY_NUMBER}           ${policyNumber}
+    Input Text    ${INPUT_PRODUCT_CODE}            AUTO
+    Input Text    ${INPUT_INSURED_DOCUMENT}        12345678901
+    Input Text    ${INPUT_PREMIUM_AMOUNT}          850.9
+    Input Text    ${INPUT_COVERAGE_AMOUNT}         50000
+    Input Text    ${INPUT_EFFECTIVE_START_DATE}    2026-06-01
+    Input Text    ${INPUT_EFFECTIVE_END_DATE}      2027-06-01
+
+Cadastrar 5 Apolices Randomicas
+
+    FOR    ${index}    IN RANGE    5
+
+        ${policyNumber}=    Evaluate
+        ...    "APO-" + str(random.randint(100000, 999999))
+        ...    random
+
+        ${body}=    Create Dictionary
+        ...    insurerCode=SEG002
+        ...    policyNumber=${policyNumber}
+        ...    productCode=AUTO
+        ...    insuredDocument=12345678901
+        ...    premiumAmount=${850.9}
+        ...    coverageAmount=${50000}
+        ...    effectiveStartDate=2026-06-01
+        ...    effectiveEndDate=2027-06-01
+
+        Create Session    backend_multiplo_${index}    http://localhost:3000
+
+        ${response}=    POST On Session
+        ...    backend_multiplo_${index}
+        ...    /policy
+        ...    json=${body}
+        ...    expected_status=201
+
+        Should Be Equal
+        ...    ${response.json()["status"]}
+        ...    REGISTERED
+
+    END

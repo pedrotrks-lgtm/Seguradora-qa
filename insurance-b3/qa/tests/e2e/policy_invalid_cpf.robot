@@ -10,10 +10,10 @@ Validar CPF Invalido
 
     Acessar Tela Policy
 
-    Preencher CPF Invalido
+    Preencher Documento Invalido
 
     Emitir Policy
 
-    Validar CPF Invalido
+    Validar Documento Invalido
 
     Fechar Navegador

@@ -2,15 +2,13 @@
 Resource    ../../resources/keywords.resource
 
 *** Test Cases ***
-Validar CPF Duplicado No Front
+Validar Policy Number Duplicado No Front
 
-    ${cpf}=    Evaluate
-    ...    str(random.randint(10000000000, 99999999999))
+    ${policyNumber}=    Evaluate
+    ...    "APO-" + str(random.randint(100000, 999999))
     ...    random
 
-    Log To Console    CPF GERADO: ${cpf}
-
-    Criar Policy Pela API    ${cpf}
+    Criar Policy Pela API    ${policyNumber}
 
     Abrir Navegador
 
@@ -18,12 +16,12 @@ Validar CPF Duplicado No Front
 
     Acessar Tela Policy
 
-    Preencher Dados Policy Com CPF Informado    ${cpf}
+    Preencher Dados Policy Com Numero Informado    ${policyNumber}
 
     Emitir Policy
 
     Wait Until Page Contains
-    ...    CPF já cadastrado
+    ...    Número da apólice já registrado
     ...    20s
 
     Fechar Navegador
