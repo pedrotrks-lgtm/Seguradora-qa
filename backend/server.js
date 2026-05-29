@@ -327,7 +327,7 @@ app.post('/client', async (req, res) => {
   if (!name || !cpf || !policy) {
     return res.status(400).json({
       error: 'REQUIRED_FIELDS',
-      message: 'Preencha os campos obrigatórios'
+      message: 'Preencha todos os campos obrigatórios do registro SRO'
     })
   }
 
