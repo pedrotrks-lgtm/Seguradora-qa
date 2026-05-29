@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    ../../resources/api/policyapi.resource
+Resource    ../../resources/api/PolicyApi.resource
 
 *** Test Cases ***
 Validar Emissao Policy API
