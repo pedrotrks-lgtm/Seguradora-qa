@@ -39,12 +39,33 @@ class MongoDBLibrary:
         )
 
     def policy_deve_existir_no_mongo(self, policyNumber, status):
-     policy = self.db["policies"].find_one({
-        "policyNumber": policyNumber,
-        "status": status
-    })
 
-     if not policy:
+        policy = self.db["policies"].find_one({
+            "policyNumber": policyNumber,
+            "status": status
+        })
+
+        if not policy:
+            raise AssertionError(
+                f"Policy com número {policyNumber} e status {status} não encontrada no MongoDB"
+            )
+
+        return True
+
+    def audit_log_deve_existir_no_mongo(self, policyNumber, event):
+
+        for _ in range(5):
+
+            audit = self.db["auditlogs"].find_one({
+                "policyNumber": policyNumber,
+                "event": event
+            })
+
+            if audit:
+                return True
+
+            time.sleep(1)
+
         raise AssertionError(
-            f"Policy com número {policyNumber} e status {status} não encontrada no MongoDB"
+            f"AuditLog {event} para policy {policyNumber} não encontrado no MongoDB"
         )

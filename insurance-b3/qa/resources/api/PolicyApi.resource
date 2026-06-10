@@ -57,6 +57,14 @@ Emitir Policy Com Sucesso
     ...    ${policyNumber}
     ...    REGISTERED
 
+    Audit Log Deve Existir No Mongo
+    ...    ${policyNumber}
+    ...    POLICY_REGISTERED
+
+    Audit Log Deve Existir No Mongo
+    ...    ${policyNumber}
+    ...    POLICY_REGISTERED
+
     RETURN    ${response}
 
 Emitir Policy Documento Invalido

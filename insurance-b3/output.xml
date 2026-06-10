@@ -1,490 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.14.5 on win32)" generated="2026-05-29T12:19:36.191552" rpa="false" schemaversion="5">
-<suite id="s1" name="Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api">
-<suite id="s1-s1" name="Client Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\client_api.robot">
-<test id="s1-s1-t1" name="Cadastrar 5 Clientes Randomicos" line="5">
-<kw name="Criar Sessao Client API" owner="ClientApi">
-<kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:38.410594" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<arg>backend</arg>
-<arg>${BASE_URL}</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-05-29T12:19:38.410411" elapsed="0.000388"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:38.409505" elapsed="0.001386"/>
-</kw>
-<for flavor="IN RANGE">
-<iter>
-<kw name="Cadastrar Cliente Randomico" owner="ClientApi">
-<kw name="Name" owner="FakerLibrary">
-<msg time="2026-05-29T12:19:38.412066" level="INFO">${nome} = Maria Flor Freitas</msg>
-<var>${nome}</var>
-<doc>:example: 'John Doe'</doc>
-<status status="PASS" start="2026-05-29T12:19:38.411879" elapsed="0.000218"/>
-</kw>
-<kw name="Cpf" owner="FakerLibrary">
-<msg time="2026-05-29T12:19:38.412358" level="INFO">${cpf_fake} = 829.546.031-51</msg>
-<var>${cpf_fake}</var>
-<status status="PASS" start="2026-05-29T12:19:38.412195" elapsed="0.000191"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.412999" level="INFO">${cpf} = 829.546.031-51</msg>
-<var>${cpf}</var>
-<arg>re.sub(r'\D', '', '''${cpf_fake}''')</arg>
-<arg>re</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.412483" elapsed="0.000546"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.413662" level="INFO">${body} = {'name': 'Maria Flor Freitas', 'cpf': '829.546.031-51', 'policy': 'Seguro Auto'}</msg>
-<var>${body}</var>
-<arg>name=${nome}</arg>
-<arg>cpf=${cpf}</arg>
-<arg>policy=Seguro Auto</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.413143" elapsed="0.000550"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:38.449921" level="INFO">POST Request : url=http://localhost:3000/client 
- path_url=/client 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '80', 'Content-Type': 'application/json'} 
- body=b'{"name": "Maria Flor Freitas", "cpf": "829.546.031-51", "policy": "Seguro Auto"}' 
- </msg>
-<msg time="2026-05-29T12:19:38.450038" level="INFO">POST Response : url=http://localhost:3000/client 
- status=201, reason=Created 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '108', 'ETag': 'W/"6c-57eqZILmwRvn4EUXdj/kOF5rEhY"', 'Date': 'Fri, 29 May 2026 15:19:38 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"clientId":"6a19ae8a4024b290dec9fab8","status":"CLIENTE_CRIADO","message":"Cliente cadastrado com sucesso"} 
- </msg>
-<msg time="2026-05-29T12:19:38.450171" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/client</arg>
-<arg>json=${body}</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.413803" elapsed="0.036398"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.451103" level="INFO">${json} = {'clientId': '6a19ae8a4024b290dec9fab8', 'status': 'CLIENTE_CRIADO', 'message': 'Cliente cadastrado com sucesso'}</msg>
-<var>${json}</var>
-<arg>${response.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.450376" elapsed="0.000769"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.451826" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>201</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.451261" elapsed="0.000638"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[status]</arg>
-<arg>CLIENTE_CRIADO</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.452013" elapsed="0.000319"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.452765" level="INFO">Length is 24.</msg>
-<arg>${json}[clientId]</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.452441" elapsed="0.000375"/>
-</kw>
-<return>
-<value>${response}</value>
-<status status="PASS" start="2026-05-29T12:19:38.452873" elapsed="0.000053"/>
-</return>
-<msg time="2026-05-29T12:19:38.453083" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<status status="PASS" start="2026-05-29T12:19:38.411640" elapsed="0.041473"/>
-</kw>
-<var name="${index}">0</var>
-<status status="PASS" start="2026-05-29T12:19:38.411462" elapsed="0.041688"/>
-</iter>
-<iter>
-<kw name="Cadastrar Cliente Randomico" owner="ClientApi">
-<kw name="Name" owner="FakerLibrary">
-<msg time="2026-05-29T12:19:38.453847" level="INFO">${nome} = Ryan Aragão</msg>
-<var>${nome}</var>
-<doc>:example: 'John Doe'</doc>
-<status status="PASS" start="2026-05-29T12:19:38.453671" elapsed="0.000208"/>
-</kw>
-<kw name="Cpf" owner="FakerLibrary">
-<msg time="2026-05-29T12:19:38.454140" level="INFO">${cpf_fake} = 395.684.270-74</msg>
-<var>${cpf_fake}</var>
-<status status="PASS" start="2026-05-29T12:19:38.453980" elapsed="0.000188"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.454713" level="INFO">${cpf} = 395.684.270-74</msg>
-<var>${cpf}</var>
-<arg>re.sub(r'\D', '', '''${cpf_fake}''')</arg>
-<arg>re</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.454269" elapsed="0.000474"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.455280" level="INFO">${body} = {'name': 'Ryan Aragão', 'cpf': '395.684.270-74', 'policy': 'Seguro Auto'}</msg>
-<var>${body}</var>
-<arg>name=${nome}</arg>
-<arg>cpf=${cpf}</arg>
-<arg>policy=Seguro Auto</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.454860" elapsed="0.000452"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:38.481370" level="INFO">POST Request : url=http://localhost:3000/client 
- path_url=/client 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '78', 'Content-Type': 'application/json'} 
- body=b'{"name": "Ryan Arag\\u00e3o", "cpf": "395.684.270-74", "policy": "Seguro Auto"}' 
- </msg>
-<msg time="2026-05-29T12:19:38.481449" level="INFO">POST Response : url=http://localhost:3000/client 
- status=201, reason=Created 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '108', 'ETag': 'W/"6c-W6pNqV7RNXtH9WDFPMy/9/PtlJQ"', 'Date': 'Fri, 29 May 2026 15:19:38 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"clientId":"6a19ae8a4024b290dec9fab9","status":"CLIENTE_CRIADO","message":"Cliente cadastrado com sucesso"} 
- </msg>
-<msg time="2026-05-29T12:19:38.481568" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/client</arg>
-<arg>json=${body}</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.455426" elapsed="0.026188"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.482373" level="INFO">${json} = {'clientId': '6a19ae8a4024b290dec9fab9', 'status': 'CLIENTE_CRIADO', 'message': 'Cliente cadastrado com sucesso'}</msg>
-<var>${json}</var>
-<arg>${response.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.481756" elapsed="0.000646"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.482996" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>201</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.482509" elapsed="0.000548"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[status]</arg>
-<arg>CLIENTE_CRIADO</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.483158" elapsed="0.000283"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.483802" level="INFO">Length is 24.</msg>
-<arg>${json}[clientId]</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.483540" elapsed="0.000308"/>
-</kw>
-<return>
-<value>${response}</value>
-<status status="PASS" start="2026-05-29T12:19:38.483898" elapsed="0.000040"/>
-</return>
-<msg time="2026-05-29T12:19:38.484074" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<status status="PASS" start="2026-05-29T12:19:38.453443" elapsed="0.030657"/>
-</kw>
-<var name="${index}">1</var>
-<status status="PASS" start="2026-05-29T12:19:38.453265" elapsed="0.030869"/>
-</iter>
-<iter>
-<kw name="Cadastrar Cliente Randomico" owner="ClientApi">
-<kw name="Name" owner="FakerLibrary">
-<msg time="2026-05-29T12:19:38.484776" level="INFO">${nome} = Sra. Lorena Brito</msg>
-<var>${nome}</var>
-<doc>:example: 'John Doe'</doc>
-<status status="PASS" start="2026-05-29T12:19:38.484616" elapsed="0.000187"/>
-</kw>
-<kw name="Cpf" owner="FakerLibrary">
-<msg time="2026-05-29T12:19:38.485032" level="INFO">${cpf_fake} = 875.364.029-29</msg>
-<var>${cpf_fake}</var>
-<status status="PASS" start="2026-05-29T12:19:38.484892" elapsed="0.000165"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.485513" level="INFO">${cpf} = 875.364.029-29</msg>
-<var>${cpf}</var>
-<arg>re.sub(r'\D', '', '''${cpf_fake}''')</arg>
-<arg>re</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.485146" elapsed="0.000395"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.486020" level="INFO">${body} = {'name': 'Sra. Lorena Brito', 'cpf': '875.364.029-29', 'policy': 'Seguro Auto'}</msg>
-<var>${body}</var>
-<arg>name=${nome}</arg>
-<arg>cpf=${cpf}</arg>
-<arg>policy=Seguro Auto</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.485648" elapsed="0.000402"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:38.503503" level="INFO">POST Request : url=http://localhost:3000/client 
- path_url=/client 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '79', 'Content-Type': 'application/json'} 
- body=b'{"name": "Sra. Lorena Brito", "cpf": "875.364.029-29", "policy": "Seguro Auto"}' 
- </msg>
-<msg time="2026-05-29T12:19:38.503579" level="INFO">POST Response : url=http://localhost:3000/client 
- status=201, reason=Created 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '108', 'ETag': 'W/"6c-jXRrvUN+ypiDdDk4Z+BEBTPEvtE"', 'Date': 'Fri, 29 May 2026 15:19:38 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"clientId":"6a19ae8a4024b290dec9faba","status":"CLIENTE_CRIADO","message":"Cliente cadastrado com sucesso"} 
- </msg>
-<msg time="2026-05-29T12:19:38.503691" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/client</arg>
-<arg>json=${body}</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.486154" elapsed="0.017564"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.504464" level="INFO">${json} = {'clientId': '6a19ae8a4024b290dec9faba', 'status': 'CLIENTE_CRIADO', 'message': 'Cliente cadastrado com sucesso'}</msg>
-<var>${json}</var>
-<arg>${response.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.503853" elapsed="0.000641"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.505076" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>201</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.504592" elapsed="0.000543"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[status]</arg>
-<arg>CLIENTE_CRIADO</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.505235" elapsed="0.000276"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.505857" level="INFO">Length is 24.</msg>
-<arg>${json}[clientId]</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.505607" elapsed="0.000293"/>
-</kw>
-<return>
-<value>${response}</value>
-<status status="PASS" start="2026-05-29T12:19:38.505946" elapsed="0.000032"/>
-</return>
-<msg time="2026-05-29T12:19:38.506105" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<status status="PASS" start="2026-05-29T12:19:38.484418" elapsed="0.021713"/>
-</kw>
-<var name="${index}">2</var>
-<status status="PASS" start="2026-05-29T12:19:38.484269" elapsed="0.021896"/>
-</iter>
-<iter>
-<kw name="Cadastrar Cliente Randomico" owner="ClientApi">
-<kw name="Name" owner="FakerLibrary">
-<msg time="2026-05-29T12:19:38.506768" level="INFO">${nome} = Theo Moura</msg>
-<var>${nome}</var>
-<doc>:example: 'John Doe'</doc>
-<status status="PASS" start="2026-05-29T12:19:38.506607" elapsed="0.000188"/>
-</kw>
-<kw name="Cpf" owner="FakerLibrary">
-<msg time="2026-05-29T12:19:38.507022" level="INFO">${cpf_fake} = 431.086.795-20</msg>
-<var>${cpf_fake}</var>
-<status status="PASS" start="2026-05-29T12:19:38.506884" elapsed="0.000164"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.507497" level="INFO">${cpf} = 431.086.795-20</msg>
-<var>${cpf}</var>
-<arg>re.sub(r'\D', '', '''${cpf_fake}''')</arg>
-<arg>re</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.507135" elapsed="0.000389"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.508006" level="INFO">${body} = {'name': 'Theo Moura', 'cpf': '431.086.795-20', 'policy': 'Seguro Auto'}</msg>
-<var>${body}</var>
-<arg>name=${nome}</arg>
-<arg>cpf=${cpf}</arg>
-<arg>policy=Seguro Auto</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.507633" elapsed="0.000402"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:38.524339" level="INFO">POST Request : url=http://localhost:3000/client 
- path_url=/client 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '72', 'Content-Type': 'application/json'} 
- body=b'{"name": "Theo Moura", "cpf": "431.086.795-20", "policy": "Seguro Auto"}' 
- </msg>
-<msg time="2026-05-29T12:19:38.524435" level="INFO">POST Response : url=http://localhost:3000/client 
- status=201, reason=Created 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '108', 'ETag': 'W/"6c-bdxuAT4jsZ67mk5kC4FZrjOLYfM"', 'Date': 'Fri, 29 May 2026 15:19:38 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"clientId":"6a19ae8a4024b290dec9fabb","status":"CLIENTE_CRIADO","message":"Cliente cadastrado com sucesso"} 
- </msg>
-<msg time="2026-05-29T12:19:38.524550" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/client</arg>
-<arg>json=${body}</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.508142" elapsed="0.016434"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.525321" level="INFO">${json} = {'clientId': '6a19ae8a4024b290dec9fabb', 'status': 'CLIENTE_CRIADO', 'message': 'Cliente cadastrado com sucesso'}</msg>
-<var>${json}</var>
-<arg>${response.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.524712" elapsed="0.000638"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.525940" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>201</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.525453" elapsed="0.000546"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[status]</arg>
-<arg>CLIENTE_CRIADO</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.526099" elapsed="0.000273"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.526717" level="INFO">Length is 24.</msg>
-<arg>${json}[clientId]</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.526469" elapsed="0.000292"/>
-</kw>
-<return>
-<value>${response}</value>
-<status status="PASS" start="2026-05-29T12:19:38.526808" elapsed="0.000032"/>
-</return>
-<msg time="2026-05-29T12:19:38.526966" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<status status="PASS" start="2026-05-29T12:19:38.506400" elapsed="0.020591"/>
-</kw>
-<var name="${index}">3</var>
-<status status="PASS" start="2026-05-29T12:19:38.506254" elapsed="0.020768"/>
-</iter>
-<iter>
-<kw name="Cadastrar Cliente Randomico" owner="ClientApi">
-<kw name="Name" owner="FakerLibrary">
-<msg time="2026-05-29T12:19:38.527616" level="INFO">${nome} = Antonella Mendonça</msg>
-<var>${nome}</var>
-<doc>:example: 'John Doe'</doc>
-<status status="PASS" start="2026-05-29T12:19:38.527459" elapsed="0.000184"/>
-</kw>
-<kw name="Cpf" owner="FakerLibrary">
-<msg time="2026-05-29T12:19:38.527870" level="INFO">${cpf_fake} = 058.794.261-49</msg>
-<var>${cpf_fake}</var>
-<status status="PASS" start="2026-05-29T12:19:38.527732" elapsed="0.000163"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.528349" level="INFO">${cpf} = 058.794.261-49</msg>
-<var>${cpf}</var>
-<arg>re.sub(r'\D', '', '''${cpf_fake}''')</arg>
-<arg>re</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.527983" elapsed="0.000393"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.529064" level="INFO">${body} = {'name': 'Antonella Mendonça', 'cpf': '058.794.261-49', 'policy': 'Seguro Auto'}</msg>
-<var>${body}</var>
-<arg>name=${nome}</arg>
-<arg>cpf=${cpf}</arg>
-<arg>policy=Seguro Auto</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.528483" elapsed="0.000611"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:38.542761" level="INFO">POST Request : url=http://localhost:3000/client 
- path_url=/client 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '85', 'Content-Type': 'application/json'} 
- body=b'{"name": "Antonella Mendon\\u00e7a", "cpf": "058.794.261-49", "policy": "Seguro Auto"}' 
- </msg>
-<msg time="2026-05-29T12:19:38.542837" level="INFO">POST Response : url=http://localhost:3000/client 
- status=201, reason=Created 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '108', 'ETag': 'W/"6c-wcJJAPg1ZzAz8corZtWgcTTv7XU"', 'Date': 'Fri, 29 May 2026 15:19:38 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"clientId":"6a19ae8a4024b290dec9fabc","status":"CLIENTE_CRIADO","message":"Cliente cadastrado com sucesso"} 
- </msg>
-<msg time="2026-05-29T12:19:38.542948" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/client</arg>
-<arg>json=${body}</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.529197" elapsed="0.013777"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.543718" level="INFO">${json} = {'clientId': '6a19ae8a4024b290dec9fabc', 'status': 'CLIENTE_CRIADO', 'message': 'Cliente cadastrado com sucesso'}</msg>
-<var>${json}</var>
-<arg>${response.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.543109" elapsed="0.000637"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.544321" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>201</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.543842" elapsed="0.000536"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[status]</arg>
-<arg>CLIENTE_CRIADO</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.544481" elapsed="0.000279"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:38.545107" level="INFO">Length is 24.</msg>
-<arg>${json}[clientId]</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:38.544856" elapsed="0.000299"/>
-</kw>
-<return>
-<value>${response}</value>
-<status status="PASS" start="2026-05-29T12:19:38.545204" elapsed="0.000031"/>
-</return>
-<msg time="2026-05-29T12:19:38.545361" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<status status="PASS" start="2026-05-29T12:19:38.527256" elapsed="0.018130"/>
-</kw>
-<var name="${index}">4</var>
-<status status="PASS" start="2026-05-29T12:19:38.527110" elapsed="0.018311"/>
-</iter>
-<var>${index}</var>
-<value>5</value>
-<status status="PASS" start="2026-05-29T12:19:38.411188" elapsed="0.134267"/>
-</for>
-<status status="PASS" start="2026-05-29T12:19:38.408511" elapsed="0.137326"/>
-</test>
-<status status="PASS" start="2026-05-29T12:19:36.257488" elapsed="2.289509"/>
-</suite>
-<suite id="s1-s2" name="Contract Policy Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\contract_policy_api.robot">
-<test id="s1-s2-t1" name="Validar Contrato Policy API" line="5">
+<robot generator="Robot 7.4.2 (Python 3.14.5 on win32)" generated="2026-06-02T20:09:37.316741" rpa="false" schemaversion="5">
+<suite id="s1" name="Policy Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\policy_api.robot">
+<test id="s1-t1" name="Validar Emissao Policy API" line="5">
 <kw name="Criar Sessao Policy API" owner="PolicyApi">
 <kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.112198" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg time="2026-06-02T20:09:38.721465" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
 <arg>backend</arg>
 <arg>${BASE_URL}</arg>
 <doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-05-29T12:19:39.112061" elapsed="0.000300"/>
+<status status="PASS" start="2026-06-02T20:09:38.721154" elapsed="0.000655"/>
 </kw>
-<status status="PASS" start="2026-05-29T12:19:39.111802" elapsed="0.000655"/>
+<status status="PASS" start="2026-06-02T20:09:38.720150" elapsed="0.001812"/>
 </kw>
 <kw name="Emitir Policy Com Sucesso" owner="PolicyApi">
 <kw name="Evaluate" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.113482" level="INFO">${policyNumber} = APO-554359</msg>
+<msg time="2026-06-02T20:09:38.723666" level="INFO">${policyNumber} = APO-791535</msg>
 <var>${policyNumber}</var>
 <arg>"APO-" + str(random.randint(100000, 999999))</arg>
 <arg>random</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.113092" elapsed="0.000420"/>
+<status status="PASS" start="2026-06-02T20:09:38.722928" elapsed="0.000791"/>
 </kw>
 <kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.114539" level="INFO">${body} = {'insurerCode': 'SEG002', 'policyNumber': 'APO-554359', 'productCode': 'AUTO', 'insuredDocument': '12345678901', 'premiumAmount': 850.9, 'coverageAmount': 50000, 'effectiveStartDate': '2026-06-01', 'e...</msg>
+<msg time="2026-06-02T20:09:38.725799" level="INFO">${body} = {'insurerCode': 'SEG002', 'policyNumber': 'APO-791535', 'productCode': 'AUTO', 'insuredDocument': '12345678901', 'premiumAmount': 850.9, 'coverageAmount': 50000, 'effectiveStartDate': '2026-06-01', 'e...</msg>
 <var>${body}</var>
 <arg>insurerCode=SEG002</arg>
 <arg>policyNumber=${policyNumber}</arg>
@@ -495,961 +33,150 @@
 <arg>effectiveStartDate=2026-06-01</arg>
 <arg>effectiveEndDate=2027-06-01</arg>
 <doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.113620" elapsed="0.000951"/>
+<status status="PASS" start="2026-06-02T20:09:38.723899" elapsed="0.001957"/>
 </kw>
 <kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.147832" level="INFO">POST Request : url=http://localhost:3000/policy 
+<msg time="2026-06-02T20:09:38.938663" level="INFO">POST Request : url=http://localhost:3000/policy 
  path_url=/policy 
  headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '231', 'Content-Type': 'application/json'} 
- body=b'{"insurerCode": "SEG002", "policyNumber": "APO-554359", "productCode": "AUTO", "insuredDocument": "12345678901", "premiumAmount": 850.9, "coverageAmount": 50000, "effectiveStartDate": "2026-06-01", "effectiveEndDate": "2027-06-01"}' 
+ body=b'{"insurerCode": "SEG002", "policyNumber": "APO-791535", "productCode": "AUTO", "insuredDocument": "12345678901", "premiumAmount": 850.9, "coverageAmount": 50000, "effectiveStartDate": "2026-06-01", "effectiveEndDate": "2027-06-01"}' 
  </msg>
-<msg time="2026-05-29T12:19:39.148118" level="INFO">POST Response : url=http://localhost:3000/policy 
+<msg time="2026-06-02T20:09:38.938981" level="INFO">POST Response : url=http://localhost:3000/policy 
  status=201, reason=Created 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '169', 'ETag': 'W/"a9-p4lDXAKpQi/agPotf11vzJ/v9TY"', 'Date': 'Fri, 29 May 2026 15:19:39 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"policyId":"6a19ae8b4024b290dec9fabd","registrationId":"SRO-B3-2026-1780067979125","status":"REGISTERED","message":"Apólice registrada com sucesso no ambiente SRO/B3"} 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '169', 'ETag': 'W/"a9-Ys00eSC17hhsvOo4RcYblyf9OW8"', 'Date': 'Tue, 02 Jun 2026 23:09:38 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"policyId":"6a1f62b2010cb312acffdc7c","registrationId":"SRO-B3-2026-1780441778871","status":"REGISTERED","message":"Apólice registrada com sucesso no ambiente SRO/B3"} 
  </msg>
-<msg time="2026-05-29T12:19:39.148601" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<msg time="2026-06-02T20:09:38.939358" level="INFO">${response} = &lt;Response [201]&gt;</msg>
 <var>${response}</var>
 <arg>backend</arg>
 <arg>/policy</arg>
 <arg>json=${body}</arg>
 <arg>expected_status=201</arg>
 <doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.114690" elapsed="0.034020"/>
+<status status="PASS" start="2026-06-02T20:09:38.726070" elapsed="0.213381"/>
 </kw>
 <kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.151463" level="INFO">${json} = {'policyId': '6a19ae8b4024b290dec9fabd', 'registrationId': 'SRO-B3-2026-1780067979125', 'status': 'REGISTERED', 'message': 'Apólice registrada com sucesso no ambiente SRO/B3'}</msg>
+<msg time="2026-06-02T20:09:38.941782" level="INFO">${json} = {'policyId': '6a1f62b2010cb312acffdc7c', 'registrationId': 'SRO-B3-2026-1780441778871', 'status': 'REGISTERED', 'message': 'Apólice registrada com sucesso no ambiente SRO/B3'}</msg>
 <var>${json}</var>
 <arg>${response.json()}</arg>
 <doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.149179" elapsed="0.002418"/>
+<status status="PASS" start="2026-06-02T20:09:38.939860" elapsed="0.002026"/>
 </kw>
 <kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.153886" level="INFO">Argument types are:
+<msg time="2026-06-02T20:09:38.944388" level="INFO">Argument types are:
 &lt;class 'int'&gt;
 &lt;class 'str'&gt;</msg>
 <arg>${response.status_code}</arg>
 <arg>201</arg>
 <doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.151989" elapsed="0.002129"/>
+<status status="PASS" start="2026-06-02T20:09:38.942237" elapsed="0.002390"/>
 </kw>
 <kw name="Should Be Equal" owner="BuiltIn">
 <arg>${json}[status]</arg>
 <arg>REGISTERED</arg>
 <doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.154535" elapsed="0.001143"/>
+<status status="PASS" start="2026-06-02T20:09:38.945027" elapsed="0.001013"/>
 </kw>
 <kw name="Should Be Equal" owner="BuiltIn">
 <arg>${json}[message]</arg>
 <arg>Apólice registrada com sucesso no ambiente SRO/B3</arg>
 <doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.156074" elapsed="0.001090"/>
+<status status="PASS" start="2026-06-02T20:09:38.946384" elapsed="0.000913"/>
 </kw>
 <kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.158549" level="INFO">Length is 24.</msg>
+<msg time="2026-06-02T20:09:38.948801" level="INFO">Length is 24.</msg>
 <arg>${json}[policyId]</arg>
 <doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.157556" elapsed="0.001164"/>
+<status status="PASS" start="2026-06-02T20:09:38.947620" elapsed="0.001337"/>
 </kw>
 <kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.160045" level="INFO">Length is 25.</msg>
+<msg time="2026-06-02T20:09:38.950116" level="INFO">Length is 25.</msg>
 <arg>${json}[registrationId]</arg>
 <doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.159077" elapsed="0.001138"/>
+<status status="PASS" start="2026-06-02T20:09:38.949275" elapsed="0.001000"/>
 </kw>
 <kw name="Policy Deve Existir No Mongo" owner="MongoDBLibrary">
 <arg>${policyNumber}</arg>
 <arg>REGISTERED</arg>
-<status status="PASS" start="2026-05-29T12:19:39.160608" elapsed="0.293561"/>
+<status status="PASS" start="2026-06-02T20:09:38.950585" elapsed="0.286378"/>
+</kw>
+<kw name="Policy Deve Existir No Mongo" owner="MongoDBLibrary">
+<arg>${policyNumber}</arg>
+<arg>REGISTERED</arg>
+<status status="PASS" start="2026-06-02T20:09:39.237345" elapsed="0.008140"/>
+</kw>
+<kw name="Audit Log Deve Existir No Mongo" owner="MongoDBLibrary">
+<arg>${policyNumber}</arg>
+<arg>POLICY_REGISTERED</arg>
+<status status="PASS" start="2026-06-02T20:09:39.246029" elapsed="0.008059"/>
 </kw>
 <return>
 <value>${response}</value>
-<status status="PASS" start="2026-05-29T12:19:39.454257" elapsed="0.000050"/>
+<status status="PASS" start="2026-06-02T20:09:39.254337" elapsed="0.000161"/>
 </return>
-<msg time="2026-05-29T12:19:39.454489" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<msg time="2026-06-02T20:09:39.255034" level="INFO">${response} = &lt;Response [201]&gt;</msg>
 <var>${response}</var>
-<status status="PASS" start="2026-05-29T12:19:39.112843" elapsed="0.341679"/>
+<status status="PASS" start="2026-06-02T20:09:38.722579" elapsed="0.532558"/>
 </kw>
 <kw name="Validar Contrato Policy Response" owner="PolicyApi">
 <kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.455979" level="INFO">${json} = {'policyId': '6a19ae8b4024b290dec9fabd', 'registrationId': 'SRO-B3-2026-1780067979125', 'status': 'REGISTERED', 'message': 'Apólice registrada com sucesso no ambiente SRO/B3'}</msg>
+<msg time="2026-06-02T20:09:39.259056" level="INFO">${json} = {'policyId': '6a1f62b2010cb312acffdc7c', 'registrationId': 'SRO-B3-2026-1780441778871', 'status': 'REGISTERED', 'message': 'Apólice registrada com sucesso no ambiente SRO/B3'}</msg>
 <var>${json}</var>
 <arg>${response.json()}</arg>
 <doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.455360" elapsed="0.000653"/>
+<status status="PASS" start="2026-06-02T20:09:39.257136" elapsed="0.002025"/>
 </kw>
 <kw name="Dictionary Should Contain Key" owner="Collections">
 <arg>${json}</arg>
 <arg>policyId</arg>
 <doc>Fails if ``key`` is not found from ``dictionary``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.456115" elapsed="0.000163"/>
+<status status="PASS" start="2026-06-02T20:09:39.259481" elapsed="0.000488"/>
 </kw>
 <kw name="Dictionary Should Contain Key" owner="Collections">
 <arg>${json}</arg>
 <arg>registrationId</arg>
 <doc>Fails if ``key`` is not found from ``dictionary``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.456376" elapsed="0.000148"/>
+<status status="PASS" start="2026-06-02T20:09:39.260284" elapsed="0.000457"/>
 </kw>
 <kw name="Dictionary Should Contain Key" owner="Collections">
 <arg>${json}</arg>
 <arg>status</arg>
 <doc>Fails if ``key`` is not found from ``dictionary``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.456619" elapsed="0.000145"/>
+<status status="PASS" start="2026-06-02T20:09:39.261042" elapsed="0.000439"/>
 </kw>
 <kw name="Dictionary Should Contain Key" owner="Collections">
 <arg>${json}</arg>
 <arg>message</arg>
 <doc>Fails if ``key`` is not found from ``dictionary``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.456859" elapsed="0.000140"/>
+<status status="PASS" start="2026-06-02T20:09:39.261781" elapsed="0.000498"/>
 </kw>
 <kw name="Should Be Equal" owner="BuiltIn">
 <arg>${json}[status]</arg>
 <arg>REGISTERED</arg>
 <doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.457131" elapsed="0.000294"/>
+<status status="PASS" start="2026-06-02T20:09:39.262599" elapsed="0.000908"/>
 </kw>
 <kw name="Should Be Equal" owner="BuiltIn">
 <arg>${json}[message]</arg>
 <arg>Apólice registrada com sucesso no ambiente SRO/B3</arg>
 <doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.457531" elapsed="0.000283"/>
+<status status="PASS" start="2026-06-02T20:09:39.263841" elapsed="0.000879"/>
 </kw>
 <arg>${response}</arg>
-<status status="PASS" start="2026-05-29T12:19:39.455004" elapsed="0.002874"/>
+<status status="PASS" start="2026-06-02T20:09:39.256183" elapsed="0.008742"/>
 </kw>
-<status status="PASS" start="2026-05-29T12:19:39.111003" elapsed="0.347154"/>
+<status status="PASS" start="2026-06-02T20:09:38.718996" elapsed="0.546594"/>
 </test>
-<status status="PASS" start="2026-05-29T12:19:38.547936" elapsed="0.911583"/>
-</suite>
-<suite id="s1-s3" name="Login Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\login_api.robot">
-<test id="s1-s3-t1" name="Validar Login API" line="5">
-<kw name="Criar Sessao API" owner="AuthApi">
-<kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.475823" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<arg>backend</arg>
-<arg>${BASE_URL}</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-05-29T12:19:39.475635" elapsed="0.000394"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.475270" elapsed="0.000839"/>
-</kw>
-<kw name="Login API Com Sucesso" owner="AuthApi">
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.477277" level="INFO">${body} = {'email': 'qa@b3.com', 'password': '123456'}</msg>
-<var>${body}</var>
-<arg>email=qa@b3.com</arg>
-<arg>password=123456</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.476907" elapsed="0.000404"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.483521" level="INFO">POST Request : url=http://localhost:3000/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '44', 'Content-Type': 'application/json'} 
- body=b'{"email": "qa@b3.com", "password": "123456"}' 
- </msg>
-<msg time="2026-05-29T12:19:39.483633" level="INFO">POST Response : url=http://localhost:3000/login 
- status=200, reason=OK 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '211', 'ETag': 'W/"d3-umulwMKJg3LB+nmdUermIsIErrA"', 'Date': 'Fri, 29 May 2026 15:19:39 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InFhQGIzLmNvbSIsImlhdCI6MTc4MDA2Nzk3OSwiZXhwIjoxNzgwMDcxNTc5fQ.AjLglDlrU7C-2QWgy7ofmDlQOZmh-_6jzbzLOxvRN_U","user":{"name":"QA B3","email":"qa@b3.com"}} 
- </msg>
-<msg time="2026-05-29T12:19:39.483812" level="INFO">${response} = &lt;Response [200]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/login</arg>
-<arg>json=${body}</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.477426" elapsed="0.006418"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.484718" level="INFO">${json} = {'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InFhQGIzLmNvbSIsImlhdCI6MTc4MDA2Nzk3OSwiZXhwIjoxNzgwMDcxNTc5fQ.AjLglDlrU7C-2QWgy7ofmDlQOZmh-_6jzbzLOxvRN_U', 'user': {'name': 'QA B3', 'emai...</msg>
-<var>${json}</var>
-<arg>${response.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.484006" elapsed="0.000746"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.485427" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>200</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.484874" elapsed="0.000623"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.486029" level="INFO">Length is 155.</msg>
-<arg>${json}[token]</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.485611" elapsed="0.000480"/>
-</kw>
-<kw name="Should Contain" owner="BuiltIn">
-<arg>${json}[token]</arg>
-<arg>eyJ</arg>
-<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.486245" elapsed="0.000432"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[user][name]</arg>
-<arg>QA B3</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.486828" elapsed="0.000357"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[user][email]</arg>
-<arg>qa@b3.com</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.487346" elapsed="0.000435"/>
-</kw>
-<return>
-<value>${response}</value>
-<status status="PASS" start="2026-05-29T12:19:39.487857" elapsed="0.000040"/>
-</return>
-<msg time="2026-05-29T12:19:39.488042" level="INFO">${response} = &lt;Response [200]&gt;</msg>
-<var>${response}</var>
-<status status="PASS" start="2026-05-29T12:19:39.476625" elapsed="0.011446"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.489136" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>200</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.488426" elapsed="0.000777"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${response.json()["user"]["name"]}</arg>
-<arg>QA B3</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.489568" elapsed="0.000654"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${response.json()["user"]["email"]}</arg>
-<arg>qa@b3.com</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.490576" elapsed="0.000678"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.492162" level="INFO">Length is 155.</msg>
-<arg>${response.json()["token"]}</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.491547" elapsed="0.000713"/>
-</kw>
-<kw name="Should Contain" owner="BuiltIn">
-<arg>${response.json()["token"]}</arg>
-<arg>eyJ</arg>
-<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.492569" elapsed="0.000707"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.474537" elapsed="0.019048"/>
-</test>
-<status status="PASS" start="2026-05-29T12:19:39.460519" elapsed="0.033967"/>
-</suite>
-<suite id="s1-s4" name="Login Api Negative" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\login_api_negative.robot">
-<test id="s1-s4-t1" name="Validar Login API Invalido" line="5">
-<kw name="Criar Sessao API" owner="AuthApi">
-<kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.505346" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<arg>backend</arg>
-<arg>${BASE_URL}</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-05-29T12:19:39.505126" elapsed="0.000405"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.504667" elapsed="0.000944"/>
-</kw>
-<kw name="Login API Invalido" owner="AuthApi">
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.506692" level="INFO">${body} = {'email': 'erro', 'password': 'erro'}</msg>
-<var>${body}</var>
-<arg>email=erro</arg>
-<arg>password=erro</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.506328" elapsed="0.000397"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.519712" level="INFO">POST Request : url=http://localhost:3000/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '37', 'Content-Type': 'application/json'} 
- body=b'{"email": "erro", "password": "erro"}' 
- </msg>
-<msg time="2026-05-29T12:19:39.519823" level="INFO">POST Response : url=http://localhost:3000/login 
- status=401, reason=Unauthorized 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '72', 'ETag': 'W/"48-KzSACSXseXfy32HdoAcFjIat//I"', 'Date': 'Fri, 29 May 2026 15:19:39 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"error":"INVALID_CREDENTIALS","message":"Usuário ou senha inválidos"} 
- </msg>
-<msg time="2026-05-29T12:19:39.520285" level="INFO">${response} = &lt;Response [401]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/login</arg>
-<arg>json=${body}</arg>
-<arg>expected_status=any</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.506837" elapsed="0.013492"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.521329" level="INFO">${json} = {'error': 'INVALID_CREDENTIALS', 'message': 'Usuário ou senha inválidos'}</msg>
-<var>${json}</var>
-<arg>${response.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.520510" elapsed="0.000874"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.522275" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>401</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.521514" elapsed="0.000829"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[error]</arg>
-<arg>INVALID_CREDENTIALS</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.522460" elapsed="0.000308"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[message]</arg>
-<arg>Usuário ou senha inválidos</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.522874" elapsed="0.000287"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.506063" elapsed="0.017167"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.503667" elapsed="0.019893"/>
-</test>
-<status status="PASS" start="2026-05-29T12:19:39.495234" elapsed="0.029383"/>
-</suite>
-<suite id="s1-s5" name="Login Multi Usuario Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\login_multi_usuario_api.robot">
-<test id="s1-s5-t1" name="Validar Login API Com Multiplos Usuarios" line="6">
-<kw name="Criar Sessao API" owner="AuthApi">
-<kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.544364" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<arg>backend</arg>
-<arg>${BASE_URL}</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-05-29T12:19:39.544215" elapsed="0.000306"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.543963" elapsed="0.000629"/>
-</kw>
-<kw name="Login API Com Usuario" owner="AuthApi">
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.547475" level="INFO">${body} = {'email': 'qa@b3.com', 'password': '123456'}</msg>
-<var>${body}</var>
-<arg>email=${email}</arg>
-<arg>password=${password}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.546531" elapsed="0.001023"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.551396" level="INFO">POST Request : url=http://localhost:3000/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '44', 'Content-Type': 'application/json'} 
- body=b'{"email": "qa@b3.com", "password": "123456"}' 
- </msg>
-<msg time="2026-05-29T12:19:39.551484" level="INFO">POST Response : url=http://localhost:3000/login 
- status=200, reason=OK 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '211', 'ETag': 'W/"d3-umulwMKJg3LB+nmdUermIsIErrA"', 'Date': 'Fri, 29 May 2026 15:19:39 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InFhQGIzLmNvbSIsImlhdCI6MTc4MDA2Nzk3OSwiZXhwIjoxNzgwMDcxNTc5fQ.AjLglDlrU7C-2QWgy7ofmDlQOZmh-_6jzbzLOxvRN_U","user":{"name":"QA B3","email":"qa@b3.com"}} 
- </msg>
-<msg time="2026-05-29T12:19:39.551870" level="INFO">${response} = &lt;Response [200]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/login</arg>
-<arg>json=${body}</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.547957" elapsed="0.003969"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.553256" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>200</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.552166" elapsed="0.001163"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.554387" level="INFO">Length is 155.</msg>
-<arg>${response.json()["token"]}</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.553457" elapsed="0.000989"/>
-</kw>
-<return>
-<value>${response}</value>
-<status status="PASS" start="2026-05-29T12:19:39.554504" elapsed="0.000036"/>
-</return>
-<msg time="2026-05-29T12:19:39.554692" level="INFO">${response_user_1} = &lt;Response [200]&gt;</msg>
-<var>${response_user_1}</var>
-<arg>${USER_1_EMAIL}</arg>
-<arg>${USER_1_PASSWORD}</arg>
-<status status="PASS" start="2026-05-29T12:19:39.545058" elapsed="0.009663"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${response_user_1.json()["user"]["email"]}</arg>
-<arg>${USER_1_EMAIL}</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.555095" elapsed="0.000748"/>
-</kw>
-<kw name="Login API Com Usuario" owner="AuthApi">
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.557587" level="INFO">${body} = {'email': 'olivia@b3.com', 'password': 'abc1234'}</msg>
-<var>${body}</var>
-<arg>email=${email}</arg>
-<arg>password=${password}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.557140" elapsed="0.000494"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.559954" level="INFO">POST Request : url=http://localhost:3000/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '49', 'Content-Type': 'application/json'} 
- body=b'{"email": "olivia@b3.com", "password": "abc1234"}' 
- </msg>
-<msg time="2026-05-29T12:19:39.560029" level="INFO">POST Response : url=http://localhost:3000/login 
- status=200, reason=OK 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '224', 'ETag': 'W/"e0-M49j23t9DrpkMRu+4vDr1mMhx+U"', 'Date': 'Fri, 29 May 2026 15:19:39 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9saXZpYUBiMy5jb20iLCJpYXQiOjE3ODAwNjc5NzksImV4cCI6MTc4MDA3MTU3OX0.NP4W4miWNGCgYfLAgaXWkLsJqiKUlTQ6ILQA9f99R_M","user":{"name":"Olivia QA","email":"olivia@b3.com"}} 
- </msg>
-<msg time="2026-05-29T12:19:39.560160" level="INFO">${response} = &lt;Response [200]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/login</arg>
-<arg>json=${body}</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.557760" elapsed="0.002429"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.560928" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>200</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.560325" elapsed="0.000668"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.561706" level="INFO">Length is 160.</msg>
-<arg>${response.json()["token"]}</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.561126" elapsed="0.000632"/>
-</kw>
-<return>
-<value>${response}</value>
-<status status="PASS" start="2026-05-29T12:19:39.561812" elapsed="0.000037"/>
-</return>
-<msg time="2026-05-29T12:19:39.562070" level="INFO">${response_user_2} = &lt;Response [200]&gt;</msg>
-<var>${response_user_2}</var>
-<arg>${USER_2_EMAIL}</arg>
-<arg>${USER_2_PASSWORD}</arg>
-<status status="PASS" start="2026-05-29T12:19:39.556605" elapsed="0.005521"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${response_user_2.json()["user"]["email"]}</arg>
-<arg>${USER_2_EMAIL}</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.563892" elapsed="0.001634"/>
-</kw>
-<kw name="Login API Com Usuario" owner="AuthApi">
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.567409" level="INFO">${body} = {'email': 'karol@b3.com', 'password': 'abc12345'}</msg>
-<var>${body}</var>
-<arg>email=${email}</arg>
-<arg>password=${password}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.566717" elapsed="0.000730"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.570032" level="INFO">POST Request : url=http://localhost:3000/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '49', 'Content-Type': 'application/json'} 
- body=b'{"email": "karol@b3.com", "password": "abc12345"}' 
- </msg>
-<msg time="2026-05-29T12:19:39.570206" level="INFO">POST Response : url=http://localhost:3000/login 
- status=200, reason=OK 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '221', 'ETag': 'W/"dd-bIwznHQihvVmcGGODm4vSN4Ccl8"', 'Date': 'Fri, 29 May 2026 15:19:39 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imthcm9sQGIzLmNvbSIsImlhdCI6MTc4MDA2Nzk3OSwiZXhwIjoxNzgwMDcxNTc5fQ.3w7zPdDIShvovVCvdD9fgeiQ8MbtaDm6Pcs2uZ9oCqM","user":{"name":"Karol QA","email":"karol@b3.com"}} 
- </msg>
-<msg time="2026-05-29T12:19:39.570389" level="INFO">${response} = &lt;Response [200]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/login</arg>
-<arg>json=${body}</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.567574" elapsed="0.002860"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.571413" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>200</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.570650" elapsed="0.000837"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.572301" level="INFO">Length is 159.</msg>
-<arg>${response.json()["token"]}</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.571618" elapsed="0.000736"/>
-</kw>
-<return>
-<value>${response}</value>
-<status status="PASS" start="2026-05-29T12:19:39.572408" elapsed="0.000034"/>
-</return>
-<msg time="2026-05-29T12:19:39.572586" level="INFO">${response_user_3} = &lt;Response [200]&gt;</msg>
-<var>${response_user_3}</var>
-<arg>${USER_3_EMAIL}</arg>
-<arg>${USER_3_PASSWORD}</arg>
-<status status="PASS" start="2026-05-29T12:19:39.566139" elapsed="0.006477"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${response_user_3.json()["user"]["email"]}</arg>
-<arg>${USER_3_EMAIL}</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.572998" elapsed="0.001611"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.543124" elapsed="0.031749"/>
-</test>
-<status status="PASS" start="2026-05-29T12:19:39.525826" elapsed="0.050098"/>
-</suite>
-<suite id="s1-s6" name="Policy Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\policy_api.robot">
-<test id="s1-s6-t1" name="Validar Emissao Policy API" line="5">
-<kw name="Criar Sessao Policy API" owner="PolicyApi">
-<kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.584792" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<arg>backend</arg>
-<arg>${BASE_URL}</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-05-29T12:19:39.584609" elapsed="0.000342"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.584304" elapsed="0.000721"/>
-</kw>
-<kw name="Emitir Policy Com Sucesso" owner="PolicyApi">
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.587123" level="INFO">${policyNumber} = APO-408932</msg>
-<var>${policyNumber}</var>
-<arg>"APO-" + str(random.randint(100000, 999999))</arg>
-<arg>random</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.586575" elapsed="0.000585"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.588215" level="INFO">${body} = {'insurerCode': 'SEG002', 'policyNumber': 'APO-408932', 'productCode': 'AUTO', 'insuredDocument': '12345678901', 'premiumAmount': 850.9, 'coverageAmount': 50000, 'effectiveStartDate': '2026-06-01', 'e...</msg>
-<var>${body}</var>
-<arg>insurerCode=SEG002</arg>
-<arg>policyNumber=${policyNumber}</arg>
-<arg>productCode=AUTO</arg>
-<arg>insuredDocument=12345678901</arg>
-<arg>premiumAmount=${850.9}</arg>
-<arg>coverageAmount=${50000}</arg>
-<arg>effectiveStartDate=2026-06-01</arg>
-<arg>effectiveEndDate=2027-06-01</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.587301" elapsed="0.000948"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.623497" level="INFO">POST Request : url=http://localhost:3000/policy 
- path_url=/policy 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '231', 'Content-Type': 'application/json'} 
- body=b'{"insurerCode": "SEG002", "policyNumber": "APO-408932", "productCode": "AUTO", "insuredDocument": "12345678901", "premiumAmount": 850.9, "coverageAmount": 50000, "effectiveStartDate": "2026-06-01", "effectiveEndDate": "2027-06-01"}' 
- </msg>
-<msg time="2026-05-29T12:19:39.623627" level="INFO">POST Response : url=http://localhost:3000/policy 
- status=201, reason=Created 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '169', 'ETag': 'W/"a9-YZ85Q/EHN4MKjtToj/cCPnKHLUE"', 'Date': 'Fri, 29 May 2026 15:19:39 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"policyId":"6a19ae8b4024b290dec9fabe","registrationId":"SRO-B3-2026-1780067979599","status":"REGISTERED","message":"Apólice registrada com sucesso no ambiente SRO/B3"} 
- </msg>
-<msg time="2026-05-29T12:19:39.623826" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/policy</arg>
-<arg>json=${body}</arg>
-<arg>expected_status=201</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.588378" elapsed="0.035496"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.625121" level="INFO">${json} = {'policyId': '6a19ae8b4024b290dec9fabe', 'registrationId': 'SRO-B3-2026-1780067979599', 'status': 'REGISTERED', 'message': 'Apólice registrada com sucesso no ambiente SRO/B3'}</msg>
-<var>${json}</var>
-<arg>${response.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.624131" elapsed="0.001035"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.626031" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>201</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.625317" elapsed="0.000802"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[status]</arg>
-<arg>REGISTERED</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.626268" elapsed="0.000406"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[message]</arg>
-<arg>Apólice registrada com sucesso no ambiente SRO/B3</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.626821" elapsed="0.000384"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.627714" level="INFO">Length is 24.</msg>
-<arg>${json}[policyId]</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.627347" elapsed="0.000432"/>
-</kw>
-<kw name="Should Not Be Empty" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.628265" level="INFO">Length is 25.</msg>
-<arg>${json}[registrationId]</arg>
-<doc>Verifies that the given item is not empty.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.627911" elapsed="0.000419"/>
-</kw>
-<kw name="Policy Deve Existir No Mongo" owner="MongoDBLibrary">
-<arg>${policyNumber}</arg>
-<arg>REGISTERED</arg>
-<status status="PASS" start="2026-05-29T12:19:39.628460" elapsed="0.217726"/>
-</kw>
-<return>
-<value>${response}</value>
-<status status="PASS" start="2026-05-29T12:19:39.846295" elapsed="0.000056"/>
-</return>
-<msg time="2026-05-29T12:19:39.846570" level="INFO">${response} = &lt;Response [201]&gt;</msg>
-<var>${response}</var>
-<status status="PASS" start="2026-05-29T12:19:39.585791" elapsed="0.260819"/>
-</kw>
-<kw name="Validar Contrato Policy Response" owner="PolicyApi">
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.848291" level="INFO">${json} = {'policyId': '6a19ae8b4024b290dec9fabe', 'registrationId': 'SRO-B3-2026-1780067979599', 'status': 'REGISTERED', 'message': 'Apólice registrada com sucesso no ambiente SRO/B3'}</msg>
-<var>${json}</var>
-<arg>${response.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.847461" elapsed="0.000875"/>
-</kw>
-<kw name="Dictionary Should Contain Key" owner="Collections">
-<arg>${json}</arg>
-<arg>policyId</arg>
-<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.848478" elapsed="0.000209"/>
-</kw>
-<kw name="Dictionary Should Contain Key" owner="Collections">
-<arg>${json}</arg>
-<arg>registrationId</arg>
-<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.848818" elapsed="0.000199"/>
-</kw>
-<kw name="Dictionary Should Contain Key" owner="Collections">
-<arg>${json}</arg>
-<arg>status</arg>
-<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.849146" elapsed="0.000186"/>
-</kw>
-<kw name="Dictionary Should Contain Key" owner="Collections">
-<arg>${json}</arg>
-<arg>message</arg>
-<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.849459" elapsed="0.000185"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[status]</arg>
-<arg>REGISTERED</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.849774" elapsed="0.000407"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[message]</arg>
-<arg>Apólice registrada com sucesso no ambiente SRO/B3</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.850318" elapsed="0.000374"/>
-</kw>
-<arg>${response}</arg>
-<status status="PASS" start="2026-05-29T12:19:39.847070" elapsed="0.003712"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.583622" elapsed="0.267509"/>
-</test>
-<status status="PASS" start="2026-05-29T12:19:39.576593" elapsed="0.275465"/>
-</suite>
-<suite id="s1-s7" name="Policy Duplicated Cpf Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\policy_duplicated_cpf_api.robot">
-<test id="s1-s7-t1" name="Validar Policy Duplicada API" line="5">
-<kw name="Criar Sessao Policy API" owner="PolicyApi">
-<kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.859493" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<arg>backend</arg>
-<arg>${BASE_URL}</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-05-29T12:19:39.859237" elapsed="0.001524"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.858833" elapsed="0.002057"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.863149" level="INFO">${policyNumber} = APO-DUPLICADA-001</msg>
-<var>${policyNumber}</var>
-<arg>APO-DUPLICADA-001</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.862577" elapsed="0.000617"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.865248" level="INFO">${body} = {'insurerCode': 'SEG002', 'policyNumber': 'APO-DUPLICADA-001', 'productCode': 'AUTO', 'insuredDocument': '12345678901', 'premiumAmount': 850.9, 'coverageAmount': 50000, 'effectiveStartDate': '2026-06-...</msg>
-<var>${body}</var>
-<arg>insurerCode=SEG002</arg>
-<arg>policyNumber=${policyNumber}</arg>
-<arg>productCode=AUTO</arg>
-<arg>insuredDocument=12345678901</arg>
-<arg>premiumAmount=${850.9}</arg>
-<arg>coverageAmount=${50000}</arg>
-<arg>effectiveStartDate=2026-06-01</arg>
-<arg>effectiveEndDate=2027-06-01</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.864103" elapsed="0.001191"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.883035" level="INFO">POST Request : url=http://localhost:3000/policy 
- path_url=/policy 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '238', 'Content-Type': 'application/json'} 
- body=b'{"insurerCode": "SEG002", "policyNumber": "APO-DUPLICADA-001", "productCode": "AUTO", "insuredDocument": "12345678901", "premiumAmount": 850.9, "coverageAmount": 50000, "effectiveStartDate": "2026-06-01", "effectiveEndDate": "2027-06-01"}' 
- </msg>
-<msg time="2026-05-29T12:19:39.883123" level="INFO">POST Response : url=http://localhost:3000/policy 
- status=409, reason=Conflict 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '76', 'ETag': 'W/"4c-WxfkNvnA/ajhDDMmWI1TFgTB3qA"', 'Date': 'Fri, 29 May 2026 15:19:39 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"error":"DUPLICATED_POLICY","message":"Número da apólice já registrado"} 
- </msg>
-<arg>backend</arg>
-<arg>/policy</arg>
-<arg>json=${body}</arg>
-<arg>expected_status=any</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.865945" elapsed="0.017283"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.897265" level="INFO">POST Request : url=http://localhost:3000/policy 
- path_url=/policy 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '238', 'Content-Type': 'application/json'} 
- body=b'{"insurerCode": "SEG002", "policyNumber": "APO-DUPLICADA-001", "productCode": "AUTO", "insuredDocument": "12345678901", "premiumAmount": 850.9, "coverageAmount": 50000, "effectiveStartDate": "2026-06-01", "effectiveEndDate": "2027-06-01"}' 
- </msg>
-<msg time="2026-05-29T12:19:39.897385" level="INFO">POST Response : url=http://localhost:3000/policy 
- status=409, reason=Conflict 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '76', 'ETag': 'W/"4c-WxfkNvnA/ajhDDMmWI1TFgTB3qA"', 'Date': 'Fri, 29 May 2026 15:19:39 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"error":"DUPLICATED_POLICY","message":"Número da apólice já registrado"} 
- </msg>
-<msg time="2026-05-29T12:19:39.897549" level="INFO">${response} = &lt;Response [409]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/policy</arg>
-<arg>json=${body}</arg>
-<arg>expected_status=any</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.883806" elapsed="0.013776"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.898657" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>409</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.897936" elapsed="0.000794"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${response.json()["error"]}</arg>
-<arg>DUPLICATED_POLICY</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.899048" elapsed="0.000667"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${response.json()["message"]}</arg>
-<arg>Número da apólice já registrado</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.900032" elapsed="0.001221"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.858121" elapsed="0.044656"/>
-</test>
-<status status="PASS" start="2026-05-29T12:19:39.852795" elapsed="0.050778"/>
-</suite>
-<suite id="s1-s8" name="Policy Invalid Cpf Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\policy_invalid_cpf_api.robot">
-<test id="s1-s8-t1" name="Validar Documento Invalido Policy API" line="5">
-<kw name="Criar Sessao Policy API" owner="PolicyApi">
-<kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.910710" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<arg>backend</arg>
-<arg>${BASE_URL}</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-05-29T12:19:39.910516" elapsed="0.000371"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.910189" elapsed="0.000780"/>
-</kw>
-<kw name="Emitir Policy Documento Invalido" owner="PolicyApi">
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.912565" level="INFO">${policyNumber} = APO-803612</msg>
-<var>${policyNumber}</var>
-<arg>"APO-" + str(random.randint(100000, 999999))</arg>
-<arg>random</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.911801" elapsed="0.000905"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.914054" level="INFO">${body} = {'insurerCode': 'SEG002', 'policyNumber': 'APO-803612', 'productCode': 'AUTO', 'insuredDocument': '123', 'premiumAmount': 850.9, 'coverageAmount': 50000, 'effectiveStartDate': '2026-06-01', 'effective...</msg>
-<var>${body}</var>
-<arg>insurerCode=SEG002</arg>
-<arg>policyNumber=${policyNumber}</arg>
-<arg>productCode=AUTO</arg>
-<arg>insuredDocument=123</arg>
-<arg>premiumAmount=${850.9}</arg>
-<arg>coverageAmount=${50000}</arg>
-<arg>effectiveStartDate=2026-06-01</arg>
-<arg>effectiveEndDate=2027-06-01</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.912949" elapsed="0.001146"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.917287" level="INFO">POST Request : url=http://localhost:3000/policy 
- path_url=/policy 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '223', 'Content-Type': 'application/json'} 
- body=b'{"insurerCode": "SEG002", "policyNumber": "APO-803612", "productCode": "AUTO", "insuredDocument": "123", "premiumAmount": 850.9, "coverageAmount": 50000, "effectiveStartDate": "2026-06-01", "effectiveEndDate": "2027-06-01"}' 
- </msg>
-<msg time="2026-05-29T12:19:39.917429" level="INFO">POST Response : url=http://localhost:3000/policy 
- status=400, reason=Bad Request 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '62', 'ETag': 'W/"3e-w18PjwL3xopvGQ3uQ2C8Je9bdec"', 'Date': 'Fri, 29 May 2026 15:19:39 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"error":"INVALID_DOCUMENT","message":"CPF ou CNPJ inválido"} 
- </msg>
-<msg time="2026-05-29T12:19:39.917591" level="INFO">${response} = &lt;Response [400]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/policy</arg>
-<arg>json=${body}</arg>
-<arg>expected_status=any</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.914251" elapsed="0.003374"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.919603" level="INFO">${json} = {'error': 'INVALID_DOCUMENT', 'message': 'CPF ou CNPJ inválido'}</msg>
-<var>${json}</var>
-<arg>${response.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.917858" elapsed="0.001811"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.921119" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>400</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.919908" elapsed="0.001360"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[error]</arg>
-<arg>INVALID_DOCUMENT</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.921414" elapsed="0.000365"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[message]</arg>
-<arg>CPF ou CNPJ inválido</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.921886" elapsed="0.000292"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.911418" elapsed="0.010828"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.909450" elapsed="0.013194"/>
-</test>
-<status status="PASS" start="2026-05-29T12:19:39.905011" elapsed="0.018384"/>
-</suite>
-<suite id="s1-s9" name="Policy Required Fields Api" source="C:\Users\pedsa\Documents\seguradoraB3\insurance-b3\qa\tests\api\policy_required_fields_api.robot">
-<test id="s1-s9-t1" name="Validar Campos Obrigatorios API" line="5">
-<kw name="Criar Sessao Policy API" owner="PolicyApi">
-<kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.931531" level="INFO">Creating Session using : alias=backend, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<arg>backend</arg>
-<arg>${BASE_URL}</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-05-29T12:19:39.931333" elapsed="0.000556"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.930948" elapsed="0.001059"/>
-</kw>
-<kw name="Emitir Policy Sem Campos" owner="PolicyApi">
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.933212" level="INFO">${body} = {}</msg>
-<var>${body}</var>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.932877" elapsed="0.000366"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-05-29T12:19:39.938219" level="INFO">POST Request : url=http://localhost:3000/policy 
- path_url=/policy 
- headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '2', 'Content-Type': 'application/json'} 
- body=b'{}' 
- </msg>
-<msg time="2026-05-29T12:19:39.938436" level="INFO">POST Response : url=http://localhost:3000/policy 
- status=400, reason=Bad Request 
- headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '94', 'ETag': 'W/"5e-0mOhbMplnmVubdpmmVYf/VyXJtI"', 'Date': 'Fri, 29 May 2026 15:19:39 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
- body={"error":"REQUIRED_FIELDS","message":"Preencha todos os campos obrigatórios do registro SRO"} 
- </msg>
-<msg time="2026-05-29T12:19:39.938686" level="INFO">${response} = &lt;Response [400]&gt;</msg>
-<var>${response}</var>
-<arg>backend</arg>
-<arg>/policy</arg>
-<arg>json=${body}</arg>
-<arg>expected_status=any</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.933348" elapsed="0.005388"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.939638" level="INFO">${json} = {'error': 'REQUIRED_FIELDS', 'message': 'Preencha todos os campos obrigatórios do registro SRO'}</msg>
-<var>${json}</var>
-<arg>${response.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.938916" elapsed="0.000756"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<msg time="2026-05-29T12:19:39.940322" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${response.status_code}</arg>
-<arg>400</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.939795" elapsed="0.000592"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[error]</arg>
-<arg>REQUIRED_FIELDS</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.940493" elapsed="0.000291"/>
-</kw>
-<kw name="Should Be Equal" owner="BuiltIn">
-<arg>${json}[message]</arg>
-<arg>Preencha todos os campos obrigatórios do registro SRO</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" start="2026-05-29T12:19:39.940889" elapsed="0.000281"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.932481" elapsed="0.008756"/>
-</kw>
-<status status="PASS" start="2026-05-29T12:19:39.930046" elapsed="0.011540"/>
-</test>
-<status status="PASS" start="2026-05-29T12:19:39.924226" elapsed="0.018208"/>
-</suite>
-<status status="PASS" start="2026-05-29T12:19:36.193873" elapsed="3.749817"/>
+<status status="PASS" start="2026-06-02T20:09:37.321865" elapsed="1.949052"/>
 </suite>
 <statistics>
 <total>
-<stat pass="9" fail="0" skip="0">All Tests</stat>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat name="Api" id="s1" pass="9" fail="0" skip="0">Api</stat>
-<stat name="Client Api" id="s1-s1" pass="1" fail="0" skip="0">Api.Client Api</stat>
-<stat name="Contract Policy Api" id="s1-s2" pass="1" fail="0" skip="0">Api.Contract Policy Api</stat>
-<stat name="Login Api" id="s1-s3" pass="1" fail="0" skip="0">Api.Login Api</stat>
-<stat name="Login Api Negative" id="s1-s4" pass="1" fail="0" skip="0">Api.Login Api Negative</stat>
-<stat name="Login Multi Usuario Api" id="s1-s5" pass="1" fail="0" skip="0">Api.Login Multi Usuario Api</stat>
-<stat name="Policy Api" id="s1-s6" pass="1" fail="0" skip="0">Api.Policy Api</stat>
-<stat name="Policy Duplicated Cpf Api" id="s1-s7" pass="1" fail="0" skip="0">Api.Policy Duplicated Cpf Api</stat>
-<stat name="Policy Invalid Cpf Api" id="s1-s8" pass="1" fail="0" skip="0">Api.Policy Invalid Cpf Api</stat>
-<stat name="Policy Required Fields Api" id="s1-s9" pass="1" fail="0" skip="0">Api.Policy Required Fields Api</stat>
+<stat name="Policy Api" id="s1" pass="1" fail="0" skip="0">Policy Api</stat>
 </suite>
 </statistics>
 <errors>
