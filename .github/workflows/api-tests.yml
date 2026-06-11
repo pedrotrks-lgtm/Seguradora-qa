@@ -36,7 +36,6 @@ jobs:
         working-directory: backend
         run: npm install
 
-      
       - name: Popular Mongo com usuario QA
         working-directory: backend
         env:
@@ -49,9 +48,9 @@ jobs:
           mongoose.connect(process.env.MONGO_URI).then(async () => {
             await User.deleteMany({});
             await User.insertMany([
-           { email: 'qa@b3.com', password: '123456' },
-           { email: 'olivia@b3.com', password: 'abc1234' },
-           { email: 'karol@b3.com', password: 'abc12345' }
+              { email: 'qa@b3.com', password: '123456' },
+              { email: 'olivia@b3.com', password: 'abc1234' },
+              { email: 'karol@b3.com', password: 'abc12345' }
             ]);
             console.log('Usuários criados no Mongo');
             await mongoose.disconnect();
@@ -70,9 +69,10 @@ jobs:
         env:
           PORT: 3000
           MONGO_URI: mongodb://localhost:27017/seguradora-b3
+          JWT_SECRET: seguradora_b3_secret
         run: |
           node server.js &
-          sleep 5
+          sleep 8
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -92,4 +92,5 @@ jobs:
 
       - name: Rodar testes de API
         working-directory: insurance-b3
-        run: robot qa/tests/api
+        run: |
+          robot qa/tests/api

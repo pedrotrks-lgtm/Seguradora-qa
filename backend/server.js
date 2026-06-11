@@ -5,6 +5,7 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerSpec = require('./swagger/swagger')
 const jwt = require('jsonwebtoken')
 const authMiddleware = require('./middleware/auth')
+const AuditLog = require('./models/AuditLog')
 
 dotenv.config()
 
@@ -279,6 +280,20 @@ app.post('/policy', async (req, res) => {
     source: 'B3_SRO_FAKE'
   })
 
+  await AuditLog.create({
+  event: 'POLICY_REGISTERED',
+  entity: 'POLICY',
+  entityId: policy._id.toString(),
+  policyNumber: policy.policyNumber,
+  registrationId: policy.registrationId,
+  userEmail: 'system',
+  status: policy.status,
+  details: {
+    insurerCode: policy.insurerCode,
+    productCode: policy.productCode,
+    source: policy.source
+  }
+})
   return res.status(201).json({
     policyId: policy._id,
     registrationId: policy.registrationId,
@@ -671,6 +686,12 @@ app.get('/regulatory/reports/susep', authMiddleware, async (req, res) => {
     totalSentToSusep,
     generatedAt: new Date().toISOString()
   })
+})
+
+app.get('/audit/logs', authMiddleware, async (req, res) => {
+  const logs = await AuditLog.find().sort({ createdAt: -1 })
+
+  return res.status(200).json(logs)
 })
 
 app.listen(process.env.PORT || 3000, () => {

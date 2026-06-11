@@ -155,3 +155,43 @@ Validar Contrato Policy Response
     Should Be Equal
     ...    ${json}[message]
     ...    Apólice registrada com sucesso no ambiente SRO/B3
+
+Validar Audit Log Pela API
+    [Arguments]    ${policyNumber}    ${event}
+
+    ${loginBody}=    Create Dictionary
+    ...    email=qa@b3.com
+    ...    password=123456
+
+    ${loginResponse}=    POST On Session
+    ...    backend
+    ...    /login
+    ...    json=${loginBody}
+
+    ${token}=    Set Variable    ${loginResponse.json()["token"]}
+
+    ${headers}=    Create Dictionary
+    ...    Authorization=Bearer ${token}
+
+    ${response}=    GET On Session
+    ...    backend
+    ...    /audit/logs
+    ...    headers=${headers}
+
+    Should Be Equal As Numbers
+    ...    ${response.status_code}
+    ...    200
+
+    ${logs}=    Set Variable    ${response.json()}
+
+    ${found}=    Set Variable    ${False}
+
+    FOR    ${log}    IN    @{logs}
+        IF    '${log["policyNumber"]}' == '${policyNumber}' and '${log["event"]}' == '${event}'
+            ${found}=    Set Variable    ${True}
+        END
+    END
+
+    Should Be True
+    ...    ${found}
+    ...    AuditLog ${event} para policy ${policyNumber} não encontrado via API

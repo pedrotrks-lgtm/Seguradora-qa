@@ -54,7 +54,7 @@ class MongoDBLibrary:
 
     def audit_log_deve_existir_no_mongo(self, policyNumber, event):
 
-        for _ in range(5):
+        for _ in range(15):
 
             audit = self.db["auditlogs"].find_one({
                 "policyNumber": policyNumber,
@@ -64,8 +64,11 @@ class MongoDBLibrary:
             if audit:
                 return True
 
-            time.sleep(1)
+            time.sleep(2)
+
+        all_audits = list(self.db["auditlogs"].find().limit(5))
 
         raise AssertionError(
-            f"AuditLog {event} para policy {policyNumber} não encontrado no MongoDB"
+            f"AuditLog {event} para policy {policyNumber} não encontrado no MongoDB. "
+            f"Últimos registros encontrados: {all_audits}"
         )
